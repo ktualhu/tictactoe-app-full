@@ -15,7 +15,7 @@ async function bootstrap() {
   });
   app.useWebSocketAdapter(new IoAdapter(app));
   app.use(cookieParser());
-  await app.listen(process.env.PORT || 3000);
+  await app.listen(process.env.PORT || 5000);
 
   if (module.hot) {
     module.hot.accept();
