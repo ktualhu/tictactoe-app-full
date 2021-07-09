@@ -6,7 +6,7 @@ import { currentUserSelector } from '../../store/users/usersSlice';
 import { constructChatMessage } from '../../utils/helpers/constructChatMessage';
 import { MessageType } from '../../utils/types/chat-message';
 import Chat from './Chat/Chat';
-import Logs from './Logs/Logs';
+import Logs from './LogsTab/LogsTab';
 
 enum TabType {
   CHAT,
