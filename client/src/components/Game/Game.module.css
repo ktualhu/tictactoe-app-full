@@ -1,0 +1,33 @@
+.table {
+  max-width: 440px;
+  max-height: 438px;
+  width: 85vw; /* 85% of the viewport (body) width */
+  height: 85vw;
+}
+.td {
+  padding: 0;
+  width: 33%; /* Every cell should be 1/3 of table height (and width) */
+  height: 33%;
+}
+.cell {
+  font-size: 3.4em;
+  font-size: 8vmin; /* Responsive font size! Awesome! */
+  height: 100%; /* Fill the container (td) */
+  width: 100%;
+}
+
+.my-btn {
+  cursor: pointer; /* Visually show that you can interact with the button */
+  border: none; /* Hides default border (and color, for some reason */
+  color: #333;
+}
+
+.cannotuse,
+.cannotmove {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.winner {
+  color: red;
+}
