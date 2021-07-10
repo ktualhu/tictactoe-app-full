@@ -9,9 +9,12 @@ export const useGame = (gameData?: GameAction) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    gameSocketRef.current = io('http://localhost:5001/game', {
-      withCredentials: true,
-    });
+    gameSocketRef.current = io(
+      `${process.env.REACT_APP_API_URL as string}game`,
+      {
+        withCredentials: true,
+      }
+    );
 
     gameSocketRef.current.on('game:join', (data: Game) => {
       dispatch(updateGame(data));

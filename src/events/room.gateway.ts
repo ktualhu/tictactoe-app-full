@@ -8,14 +8,7 @@ import {
 } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
 
-import { options } from './lobby.gateway';
-
-const curOptions = {
-  ...options,
-  namespace: '/room',
-};
-
-@WebSocketGateway(5001, curOptions)
+@WebSocketGateway({ namespace: '/room' })
 export class RoomGateway {
   @WebSocketServer() server: Server;
 

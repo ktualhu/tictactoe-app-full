@@ -224,15 +224,15 @@ exports.AppModule = void 0;
 const serve_static_1 = __webpack_require__(8);
 const common_1 = __webpack_require__(9);
 const app_controller_1 = __webpack_require__(10);
-const app_service_1 = __webpack_require__(13);
-const auth_module_1 = __webpack_require__(14);
-const events_module_1 = __webpack_require__(23);
-const game_module_1 = __webpack_require__(24);
-const rooms_module_1 = __webpack_require__(29);
-const rooms_service_1 = __webpack_require__(33);
-const users_module_1 = __webpack_require__(16);
-const users_service_1 = __webpack_require__(17);
-const path_1 = __webpack_require__(41);
+const app_service_1 = __webpack_require__(14);
+const auth_module_1 = __webpack_require__(15);
+const events_module_1 = __webpack_require__(24);
+const game_module_1 = __webpack_require__(25);
+const rooms_module_1 = __webpack_require__(30);
+const rooms_service_1 = __webpack_require__(34);
+const users_module_1 = __webpack_require__(17);
+const users_service_1 = __webpack_require__(18);
+const path_1 = __webpack_require__(12);
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -286,27 +286,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b;
+var _a, _b, _c, _d;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AppController = exports.LobbyDto = void 0;
 const common_1 = __webpack_require__(9);
 const express_1 = __webpack_require__(11);
-const isauth_guard_1 = __webpack_require__(12);
+const path_1 = __webpack_require__(12);
+const isauth_guard_1 = __webpack_require__(13);
 class LobbyDto {
 }
 exports.LobbyDto = LobbyDto;
 let AppController = class AppController {
-    async getIndex(req) {
+    async getIndex(res) {
+        res.sendFile(path_1.join(__dirname, '..', 'client/build/index.html'));
+    }
+    async getIsAuth(req) {
         return req.cookies.username || null;
     }
 };
 __decorate([
     common_1.Get('/'),
-    __param(0, common_1.Req()),
+    __param(0, common_1.Res()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_a = typeof express_1.Request !== "undefined" && express_1.Request) === "function" ? _a : Object]),
+    __metadata("design:paramtypes", [typeof (_a = typeof express_1.Response !== "undefined" && express_1.Response) === "function" ? _a : Object]),
     __metadata("design:returntype", typeof (_b = typeof Promise !== "undefined" && Promise) === "function" ? _b : Object)
 ], AppController.prototype, "getIndex", null);
+__decorate([
+    common_1.Get('/isAuth'),
+    __param(0, common_1.Req()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_c = typeof express_1.Request !== "undefined" && express_1.Request) === "function" ? _c : Object]),
+    __metadata("design:returntype", typeof (_d = typeof Promise !== "undefined" && Promise) === "function" ? _d : Object)
+], AppController.prototype, "getIsAuth", null);
 AppController = __decorate([
     common_1.UseGuards(isauth_guard_1.IsAuthGuard),
     common_1.Controller()
@@ -323,6 +334,13 @@ module.exports = require("express");;
 
 /***/ }),
 /* 12 */
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("path");;
+
+/***/ }),
+/* 13 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -338,10 +356,6 @@ exports.IsAuthGuard = void 0;
 const common_1 = __webpack_require__(9);
 let IsAuthGuard = class IsAuthGuard {
     canActivate(context) {
-        const request = context.switchToHttp().getRequest();
-        if (!request.cookies.username) {
-            return false;
-        }
         return true;
     }
 };
@@ -352,7 +366,7 @@ exports.IsAuthGuard = IsAuthGuard;
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -378,7 +392,7 @@ exports.AppService = AppService;
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -392,11 +406,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AuthModule = void 0;
 const common_1 = __webpack_require__(9);
-const passport_1 = __webpack_require__(15);
-const users_module_1 = __webpack_require__(16);
-const auth_controller_1 = __webpack_require__(18);
-const auth_service_1 = __webpack_require__(20);
-const local_strategy_1 = __webpack_require__(21);
+const passport_1 = __webpack_require__(16);
+const users_module_1 = __webpack_require__(17);
+const auth_controller_1 = __webpack_require__(19);
+const auth_service_1 = __webpack_require__(21);
+const local_strategy_1 = __webpack_require__(22);
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
@@ -411,14 +425,14 @@ exports.AuthModule = AuthModule;
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ ((module) => {
 
 "use strict";
 module.exports = require("@nestjs/passport");;
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -432,7 +446,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UsersModule = void 0;
 const common_1 = __webpack_require__(9);
-const users_service_1 = __webpack_require__(17);
+const users_service_1 = __webpack_require__(18);
 let UsersModule = class UsersModule {
 };
 UsersModule = __decorate([
@@ -445,7 +459,7 @@ exports.UsersModule = UsersModule;
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -484,7 +498,7 @@ exports.UsersService = UsersService;
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -506,8 +520,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AuthController = void 0;
 const common_1 = __webpack_require__(9);
 const express_1 = __webpack_require__(11);
-const users_service_1 = __webpack_require__(17);
-const auth_guard_1 = __webpack_require__(19);
+const users_service_1 = __webpack_require__(18);
+const auth_guard_1 = __webpack_require__(20);
 let AuthController = class AuthController {
     constructor(usersService) {
         this.usersService = usersService;
@@ -543,7 +557,7 @@ exports.AuthController = AuthController;
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -573,7 +587,7 @@ exports.AuthGuard = AuthGuard;
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -591,7 +605,7 @@ var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AuthService = void 0;
 const common_1 = __webpack_require__(9);
-const users_service_1 = __webpack_require__(17);
+const users_service_1 = __webpack_require__(18);
 let AuthService = class AuthService {
     constructor(userService) {
         this.userService = userService;
@@ -609,7 +623,7 @@ exports.AuthService = AuthService;
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -627,9 +641,9 @@ var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.LocalStrategy = void 0;
 const common_1 = __webpack_require__(9);
-const passport_1 = __webpack_require__(15);
-const passport_local_1 = __webpack_require__(22);
-const auth_service_1 = __webpack_require__(20);
+const passport_1 = __webpack_require__(16);
+const passport_local_1 = __webpack_require__(23);
+const auth_service_1 = __webpack_require__(21);
 let LocalStrategy = class LocalStrategy extends passport_1.PassportStrategy(passport_local_1.Strategy) {
     constructor(authService) {
         super();
@@ -651,43 +665,11 @@ exports.LocalStrategy = LocalStrategy;
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ ((module) => {
 
 "use strict";
 module.exports = require("passport-local");;
-
-/***/ }),
-/* 23 */
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.EventsModule = void 0;
-const common_1 = __webpack_require__(9);
-const game_module_1 = __webpack_require__(24);
-const rooms_module_1 = __webpack_require__(29);
-const chat_gateway_1 = __webpack_require__(35);
-const game_gateway_1 = __webpack_require__(39);
-const lobby_gateway_1 = __webpack_require__(38);
-const room_gateway_1 = __webpack_require__(40);
-let EventsModule = class EventsModule {
-};
-EventsModule = __decorate([
-    common_1.Module({
-        imports: [rooms_module_1.RoomsModule, game_module_1.GameModule],
-        providers: [lobby_gateway_1.LobbyGateway, room_gateway_1.RoomGateway, chat_gateway_1.ChatGateway, game_gateway_1.GameGateway],
-    })
-], EventsModule);
-exports.EventsModule = EventsModule;
-
 
 /***/ }),
 /* 24 */
@@ -702,11 +684,43 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.EventsModule = void 0;
+const common_1 = __webpack_require__(9);
+const game_module_1 = __webpack_require__(25);
+const rooms_module_1 = __webpack_require__(30);
+const chat_gateway_1 = __webpack_require__(36);
+const game_gateway_1 = __webpack_require__(39);
+const lobby_gateway_1 = __webpack_require__(40);
+const room_gateway_1 = __webpack_require__(41);
+let EventsModule = class EventsModule {
+};
+EventsModule = __decorate([
+    common_1.Module({
+        imports: [rooms_module_1.RoomsModule, game_module_1.GameModule],
+        providers: [lobby_gateway_1.LobbyGateway, room_gateway_1.RoomGateway, chat_gateway_1.ChatGateway, game_gateway_1.GameGateway],
+    })
+], EventsModule);
+exports.EventsModule = EventsModule;
+
+
+/***/ }),
+/* 25 */
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GameModule = void 0;
 const common_1 = __webpack_require__(9);
-const game_controller_1 = __webpack_require__(25);
-const game_service_1 = __webpack_require__(27);
-const gamelogic_service_1 = __webpack_require__(28);
+const game_controller_1 = __webpack_require__(26);
+const game_service_1 = __webpack_require__(28);
+const gamelogic_service_1 = __webpack_require__(29);
 let GameModule = class GameModule {
 };
 GameModule = __decorate([
@@ -720,7 +734,7 @@ exports.GameModule = GameModule;
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -741,9 +755,9 @@ var _a, _b;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GameController = void 0;
 const common_1 = __webpack_require__(9);
-const isauth_guard_1 = __webpack_require__(12);
-const gameAction_dto_1 = __webpack_require__(26);
-const game_service_1 = __webpack_require__(27);
+const isauth_guard_1 = __webpack_require__(13);
+const gameAction_dto_1 = __webpack_require__(27);
+const game_service_1 = __webpack_require__(28);
 let GameController = class GameController {
     constructor(gameService) {
         this.gameService = gameService;
@@ -768,7 +782,7 @@ exports.GameController = GameController;
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -781,7 +795,7 @@ exports.GameActionDTO = GameActionDTO;
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -799,7 +813,7 @@ var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GameService = exports.GameData = exports.GamePickState = exports.GameReadyState = exports.GameState = void 0;
 const common_1 = __webpack_require__(9);
-const gamelogic_service_1 = __webpack_require__(28);
+const gamelogic_service_1 = __webpack_require__(29);
 var GameState;
 (function (GameState) {
     GameState["PREVIEW"] = "preview";
@@ -964,7 +978,7 @@ exports.GameService = GameService;
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -1087,7 +1101,7 @@ exports.GameLogic = GameLogic;
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -1101,9 +1115,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RoomsModule = void 0;
 const common_1 = __webpack_require__(9);
-const game_module_1 = __webpack_require__(24);
-const rooms_controller_1 = __webpack_require__(30);
-const rooms_service_1 = __webpack_require__(33);
+const game_module_1 = __webpack_require__(25);
+const rooms_controller_1 = __webpack_require__(31);
+const rooms_service_1 = __webpack_require__(34);
 let RoomsModule = class RoomsModule {
 };
 RoomsModule = __decorate([
@@ -1118,7 +1132,7 @@ exports.RoomsModule = RoomsModule;
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -1140,10 +1154,10 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RoomsController = void 0;
 const common_1 = __webpack_require__(9);
 const express_1 = __webpack_require__(11);
-const isauth_guard_1 = __webpack_require__(12);
-const createRoom_dto_1 = __webpack_require__(31);
-const joinRoom_dto_1 = __webpack_require__(32);
-const rooms_service_1 = __webpack_require__(33);
+const isauth_guard_1 = __webpack_require__(13);
+const createRoom_dto_1 = __webpack_require__(32);
+const joinRoom_dto_1 = __webpack_require__(33);
+const rooms_service_1 = __webpack_require__(34);
 let RoomsController = class RoomsController {
     constructor(roomsService) {
         this.roomsService = roomsService;
@@ -1233,7 +1247,7 @@ exports.RoomsController = RoomsController;
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -1246,7 +1260,7 @@ exports.CreateRoomDTO = CreateRoomDTO;
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -1259,7 +1273,7 @@ exports.JoinRoomDTO = JoinRoomDTO;
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -1277,8 +1291,8 @@ var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RoomsService = exports.RoomUpdatePrefix = exports.Room = void 0;
 const common_1 = __webpack_require__(9);
-const uuid_1 = __webpack_require__(34);
-const game_service_1 = __webpack_require__(27);
+const uuid_1 = __webpack_require__(35);
+const game_service_1 = __webpack_require__(28);
 class Room {
 }
 exports.Room = Room;
@@ -1348,14 +1362,14 @@ exports.RoomsService = RoomsService;
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ ((module) => {
 
 "use strict";
 module.exports = require("uuid");;
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -1375,10 +1389,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 var _a, _b, _c;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ChatGateway = void 0;
-const websockets_1 = __webpack_require__(36);
-const socket_io_1 = __webpack_require__(37);
-const lobby_gateway_1 = __webpack_require__(38);
-const curOptions = Object.assign(Object.assign({}, lobby_gateway_1.options), { namespace: '/chat' });
+const websockets_1 = __webpack_require__(37);
+const socket_io_1 = __webpack_require__(38);
 let ChatGateway = class ChatGateway {
     handleJoinChat(data, socket) {
         const chatId = `chat${data.roomId}`;
@@ -1391,7 +1403,6 @@ let ChatGateway = class ChatGateway {
         this.server.to(chatId).emit('chat:leave', data.message);
     }
     handleChatMessage(data) {
-        console.log('chat:message', data);
         const chatId = `chat${data.roomId}`;
         this.server.to(chatId).emit('chat:message', data.message);
     }
@@ -1435,132 +1446,24 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ChatGateway.prototype, "handleChatMessageLog", null);
 ChatGateway = __decorate([
-    websockets_1.WebSocketGateway(5001, curOptions)
+    websockets_1.WebSocketGateway({ namespace: '/chat' })
 ], ChatGateway);
 exports.ChatGateway = ChatGateway;
 
-
-/***/ }),
-/* 36 */
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("@nestjs/websockets");;
 
 /***/ }),
 /* 37 */
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("socket.io");;
+module.exports = require("@nestjs/websockets");;
 
 /***/ }),
 /* 38 */
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ ((module) => {
 
 "use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-var _a, _b, _c, _d, _e, _f;
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.LobbyGateway = exports.options = void 0;
-const common_1 = __webpack_require__(9);
-const websockets_1 = __webpack_require__(36);
-const socket_io_1 = __webpack_require__(37);
-const rooms_service_1 = __webpack_require__(33);
-exports.options = {
-    cors: {
-        origin: 'http://localhost:3000',
-        methods: ['GET', 'POST'],
-        credentials: true,
-    },
-};
-let LobbyGateway = class LobbyGateway {
-    constructor(roomsService) {
-        this.roomsService = roomsService;
-        this.logger = new common_1.Logger('LobbyGateway');
-    }
-    handleUserJoin(data, socket) {
-        socket.broadcast.emit('user:join', data);
-    }
-    handleCreateRoom(data, socket) {
-        this.logger.log('room:create');
-        socket.broadcast.emit('room:create', data);
-    }
-    async handleAddUser(data) {
-        try {
-            const updatedRoom = await this.roomsService.addUser(data.id, data.username);
-            this.server.emit('room:add_user', updatedRoom);
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
-    async handleRemoveUser(data, socket) {
-        try {
-            const updatedRoom = await this.roomsService.removeUser(data.id, data.username);
-            socket.broadcast.emit('room:remove_user', updatedRoom);
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
-    afterInit(server) {
-        this.logger.log('init');
-    }
-};
-__decorate([
-    websockets_1.WebSocketServer(),
-    __metadata("design:type", typeof (_a = typeof socket_io_1.Server !== "undefined" && socket_io_1.Server) === "function" ? _a : Object)
-], LobbyGateway.prototype, "server", void 0);
-__decorate([
-    websockets_1.SubscribeMessage('user:join'),
-    __param(0, websockets_1.MessageBody()),
-    __param(1, websockets_1.ConnectedSocket()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, typeof (_b = typeof socket_io_1.Socket !== "undefined" && socket_io_1.Socket) === "function" ? _b : Object]),
-    __metadata("design:returntype", void 0)
-], LobbyGateway.prototype, "handleUserJoin", null);
-__decorate([
-    websockets_1.SubscribeMessage('room:create'),
-    __param(0, websockets_1.MessageBody()),
-    __param(1, websockets_1.ConnectedSocket()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_c = typeof rooms_service_1.Room !== "undefined" && rooms_service_1.Room) === "function" ? _c : Object, typeof (_d = typeof socket_io_1.Socket !== "undefined" && socket_io_1.Socket) === "function" ? _d : Object]),
-    __metadata("design:returntype", void 0)
-], LobbyGateway.prototype, "handleCreateRoom", null);
-__decorate([
-    websockets_1.SubscribeMessage('room:add_user'),
-    __param(0, websockets_1.MessageBody()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], LobbyGateway.prototype, "handleAddUser", null);
-__decorate([
-    websockets_1.SubscribeMessage('room:remove_user'),
-    __param(0, websockets_1.MessageBody()),
-    __param(1, websockets_1.ConnectedSocket()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, typeof (_e = typeof socket_io_1.Socket !== "undefined" && socket_io_1.Socket) === "function" ? _e : Object]),
-    __metadata("design:returntype", Promise)
-], LobbyGateway.prototype, "handleRemoveUser", null);
-LobbyGateway = __decorate([
-    websockets_1.WebSocketGateway(5001, exports.options),
-    __metadata("design:paramtypes", [typeof (_f = typeof rooms_service_1.RoomsService !== "undefined" && rooms_service_1.RoomsService) === "function" ? _f : Object])
-], LobbyGateway);
-exports.LobbyGateway = LobbyGateway;
-
+module.exports = require("socket.io");;
 
 /***/ }),
 /* 39 */
@@ -1583,12 +1486,10 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GameGateway = void 0;
-const websockets_1 = __webpack_require__(36);
-const socket_io_1 = __webpack_require__(37);
-const gameAction_dto_1 = __webpack_require__(26);
-const game_service_1 = __webpack_require__(27);
-const lobby_gateway_1 = __webpack_require__(38);
-const curOptions = Object.assign(Object.assign({}, lobby_gateway_1.options), { namespace: '/game' });
+const websockets_1 = __webpack_require__(37);
+const socket_io_1 = __webpack_require__(38);
+const gameAction_dto_1 = __webpack_require__(27);
+const game_service_1 = __webpack_require__(28);
 let GameGateway = class GameGateway {
     constructor(gameService) {
         this.gameService = gameService;
@@ -1698,7 +1599,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], GameGateway.prototype, "handleGameLeave", null);
 GameGateway = __decorate([
-    websockets_1.WebSocketGateway(5001, curOptions),
+    websockets_1.WebSocketGateway({ namespace: '/game' }),
     __metadata("design:paramtypes", [typeof (_o = typeof game_service_1.GameService !== "undefined" && game_service_1.GameService) === "function" ? _o : Object])
 ], GameGateway);
 exports.GameGateway = GameGateway;
@@ -1722,13 +1623,112 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var _a, _b, _c, _d, _e, _f;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.LobbyGateway = void 0;
+const common_1 = __webpack_require__(9);
+const websockets_1 = __webpack_require__(37);
+const socket_io_1 = __webpack_require__(38);
+const rooms_service_1 = __webpack_require__(34);
+let LobbyGateway = class LobbyGateway {
+    constructor(roomsService) {
+        this.roomsService = roomsService;
+        this.logger = new common_1.Logger('LobbyGateway');
+    }
+    handleUserJoin(data, socket) {
+        socket.broadcast.emit('user:join', data);
+    }
+    handleCreateRoom(data, socket) {
+        this.logger.log('room:create');
+        socket.broadcast.emit('room:create', data);
+    }
+    async handleAddUser(data) {
+        try {
+            const updatedRoom = await this.roomsService.addUser(data.id, data.username);
+            this.server.emit('room:add_user', updatedRoom);
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+    async handleRemoveUser(data, socket) {
+        try {
+            const updatedRoom = await this.roomsService.removeUser(data.id, data.username);
+            socket.broadcast.emit('room:remove_user', updatedRoom);
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+    afterInit(server) {
+        this.logger.log('init');
+    }
+};
+__decorate([
+    websockets_1.WebSocketServer(),
+    __metadata("design:type", typeof (_a = typeof socket_io_1.Server !== "undefined" && socket_io_1.Server) === "function" ? _a : Object)
+], LobbyGateway.prototype, "server", void 0);
+__decorate([
+    websockets_1.SubscribeMessage('user:join'),
+    __param(0, websockets_1.MessageBody()),
+    __param(1, websockets_1.ConnectedSocket()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, typeof (_b = typeof socket_io_1.Socket !== "undefined" && socket_io_1.Socket) === "function" ? _b : Object]),
+    __metadata("design:returntype", void 0)
+], LobbyGateway.prototype, "handleUserJoin", null);
+__decorate([
+    websockets_1.SubscribeMessage('room:create'),
+    __param(0, websockets_1.MessageBody()),
+    __param(1, websockets_1.ConnectedSocket()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_c = typeof rooms_service_1.Room !== "undefined" && rooms_service_1.Room) === "function" ? _c : Object, typeof (_d = typeof socket_io_1.Socket !== "undefined" && socket_io_1.Socket) === "function" ? _d : Object]),
+    __metadata("design:returntype", void 0)
+], LobbyGateway.prototype, "handleCreateRoom", null);
+__decorate([
+    websockets_1.SubscribeMessage('room:add_user'),
+    __param(0, websockets_1.MessageBody()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], LobbyGateway.prototype, "handleAddUser", null);
+__decorate([
+    websockets_1.SubscribeMessage('room:remove_user'),
+    __param(0, websockets_1.MessageBody()),
+    __param(1, websockets_1.ConnectedSocket()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, typeof (_e = typeof socket_io_1.Socket !== "undefined" && socket_io_1.Socket) === "function" ? _e : Object]),
+    __metadata("design:returntype", Promise)
+], LobbyGateway.prototype, "handleRemoveUser", null);
+LobbyGateway = __decorate([
+    websockets_1.WebSocketGateway(),
+    __metadata("design:paramtypes", [typeof (_f = typeof rooms_service_1.RoomsService !== "undefined" && rooms_service_1.RoomsService) === "function" ? _f : Object])
+], LobbyGateway);
+exports.LobbyGateway = LobbyGateway;
+
+
+/***/ }),
+/* 41 */
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 var _a, _b, _c;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RoomGateway = void 0;
-const websockets_1 = __webpack_require__(36);
-const socket_io_1 = __webpack_require__(37);
-const lobby_gateway_1 = __webpack_require__(38);
-const curOptions = Object.assign(Object.assign({}, lobby_gateway_1.options), { namespace: '/room' });
+const websockets_1 = __webpack_require__(37);
+const socket_io_1 = __webpack_require__(38);
 let RoomGateway = class RoomGateway {
     handleJoinRoom(data, socket) {
         socket.join(data.roomId);
@@ -1770,17 +1770,10 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], RoomGateway.prototype, "handlePrivateRoom", null);
 RoomGateway = __decorate([
-    websockets_1.WebSocketGateway(5001, curOptions)
+    websockets_1.WebSocketGateway({ namespace: '/room' })
 ], RoomGateway);
 exports.RoomGateway = RoomGateway;
 
-
-/***/ }),
-/* 41 */
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("path");;
 
 /***/ })
 /******/ 	]);
@@ -1844,7 +1837,7 @@ module.exports = require("path");;
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("cdfc32e4ee71f79778fb")
+/******/ 		__webpack_require__.h = () => ("8cce198ec151478a3a2f")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */

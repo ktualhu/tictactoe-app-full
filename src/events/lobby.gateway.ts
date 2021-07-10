@@ -11,15 +11,7 @@ import {
 import { Socket, Server } from 'socket.io';
 import { Room, RoomsService } from 'src/rooms/rooms.service';
 
-export const options = {
-  cors: {
-    origin: 'http://localhost:3000',
-    methods: ['GET', 'POST'],
-    credentials: true,
-  },
-};
-
-@WebSocketGateway(5001, options)
+@WebSocketGateway()
 export class LobbyGateway implements OnGatewayInit {
   private logger = new Logger('LobbyGateway');
 

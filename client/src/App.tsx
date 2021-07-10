@@ -17,8 +17,10 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log('init index request');
+
     http
-      .get('/')
+      .get('/isAuth')
       .then(resp => {
         if (resp.data) {
           dispatch(auth({ username: resp.data }));
