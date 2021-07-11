@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Row } from 'react-bootstrap';
 import { Message } from '../../utils/types/chat-message';
 import MessageComponent from './Message';
@@ -6,9 +6,24 @@ import MessageComponent from './Message';
 interface IProps {
   messages: Message[];
   isLog: boolean;
+  isOpen: boolean;
 }
 
 function MessageSectionLayout(props: IProps) {
+  const bottomRef = React.createRef<HTMLDivElement>();
+
+  useEffect(() => {
+    props.isOpen && scrollToBottom();
+  }, [props.isOpen]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [props.messages.length]);
+
+  const scrollToBottom = () => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <Container
       className="p-1 bg-light text-dark overflow-auto"
@@ -30,6 +45,7 @@ function MessageSectionLayout(props: IProps) {
           No messages yet
         </span>
       )}
+      <div ref={bottomRef}></div>
     </Container>
   );
 }

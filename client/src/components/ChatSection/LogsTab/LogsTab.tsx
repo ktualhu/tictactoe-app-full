@@ -5,10 +5,15 @@ import MessageSectionLayout from '../MessageSectionLayout';
 
 interface IProps {
   addMessage: () => void;
+  isOpen: boolean;
 }
 
 function Logs(props: IProps) {
   const messages = useSelector(getMessagesLog);
+
+  useEffect(() => {
+    console.log('[LOGS] Is Open?', props.isOpen);
+  }, [props.isOpen]);
 
   useEffect(() => {
     if (messages.length) props.addMessage();
@@ -16,7 +21,11 @@ function Logs(props: IProps) {
 
   return (
     <React.Fragment>
-      <MessageSectionLayout messages={messages} isLog={true} />
+      <MessageSectionLayout
+        messages={messages}
+        isLog={true}
+        isOpen={props.isOpen}
+      />
     </React.Fragment>
   );
 }

@@ -101,6 +101,7 @@ function ChatSection(props: IProps) {
         <Chat
           roomId={props.roomId}
           addMessage={() => incMsgCounter(TabType.CHAT)}
+          isOpen={tabType === TabType.CHAT || false}
         />
       </Tab>
       <Tab
@@ -125,7 +126,10 @@ function ChatSection(props: IProps) {
         tabClassName="bg-dark text-light"
         onEntered={() => setTabType(TabType.LOGS)}
       >
-        <Logs addMessage={() => incMsgCounter(TabType.LOGS)} />
+        <Logs
+          addMessage={() => incMsgCounter(TabType.LOGS)}
+          isOpen={tabType === TabType.LOGS || false}
+        />
       </Tab>
     </Tabs>
   );
