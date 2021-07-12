@@ -12,10 +12,6 @@ function Logs(props: IProps) {
   const messages = useSelector(getMessagesLog);
 
   useEffect(() => {
-    console.log('[LOGS] Is Open?', props.isOpen);
-  }, [props.isOpen]);
-
-  useEffect(() => {
     if (messages.length) props.addMessage();
   }, [messages]);
 

@@ -33,10 +33,6 @@ function Chat(props: IProps) {
   const { sendMessage } = useChat();
 
   useEffect(() => {
-    console.log('[CHAT] Is Open?', props.isOpen);
-  }, [props.isOpen]);
-
-  useEffect(() => {
     if (messages.length) props.addMessage();
   }, [messages]);
 

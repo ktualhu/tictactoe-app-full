@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Form, FormGroup } from 'react-bootstrap';
 import http from '../../../http';
 import { useFormField } from '../../../utils/helpers/form';
+import { joinRoom } from '../../../utils/helpers/joinRoomRequest';
 
 type RoomProps = {
   roomId: string;
@@ -11,17 +12,13 @@ type RoomProps = {
 
 function RoomJoinForm(props: RoomProps) {
   const passwordField = useFormField('password');
-  // const [errLabel, setErrLabel] = useState('');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!passwordField.onLocalErrors()) {
       try {
-        await http.post('/rooms/join', {
-          roomId: props.roomId,
-          password: passwordField.props.value || '',
-        });
+        await joinRoom(props.roomId, passwordField.props.value);
         props.onSuccess();
       } catch (err) {
         const { message } = err.response.data;

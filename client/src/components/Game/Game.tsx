@@ -14,12 +14,13 @@ import { useGame } from '../../hooks/useGame';
 import RootState from '../../store/state/rootState';
 import { getCurrentPlayer } from '../../utils/helpers/currentPlayer';
 
-type GameProps = {
+interface IGameProps {
   roomId: string;
   playersCounter: number;
-};
+  onGameReady: () => void;
+}
 
-function Game(props: GameProps) {
+function Game(props: IGameProps) {
   const currentUser = useSelector(currentUserSelector);
   const currentPlayer = useSelector((state: RootState) =>
     getCurrentPlayer(state, currentUser.username)
@@ -47,6 +48,7 @@ function Game(props: GameProps) {
           currentPlayer.goFirst ? blockField(false) : blockField(true);
           initGameField();
         }
+        props.onGameReady();
         break;
       case GameStateType.RESTART:
         handleGameRestart();

@@ -1,1 +1,0 @@
-{"version":3,"file":"SocketOptions.js","sourceRoot":"","sources":["../../src/utils/SocketOptions.ts"],"names":[],"mappings":";;;AAAa,QAAA,OAAO,GAAG;IACrB,IAAI,EAAE;QACJ,MAAM,EAAE,uBAAuB;QAC/B,OAAO,EAAE,CAAC,KAAK,EAAE,MAAM,CAAC;QACxB,WAAW,EAAE,IAAI;KAClB;CACF,CAAC"}
