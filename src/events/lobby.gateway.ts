@@ -10,12 +10,16 @@ import {
 
 import { Socket, Server } from 'socket.io';
 import { Room, RoomsService } from 'src/rooms/rooms.service';
+import { GameService } from 'src/games/game.service';
 
 @WebSocketGateway()
 export class LobbyGateway implements OnGatewayInit {
   private logger = new Logger('LobbyGateway');
 
-  constructor(private readonly roomsService: RoomsService) {}
+  constructor(
+    private readonly roomsService: RoomsService,
+    private readonly gameService: GameService,
+  ) {}
 
   @WebSocketServer() server: Server;
 
@@ -60,7 +64,12 @@ export class LobbyGateway implements OnGatewayInit {
         data.id,
         data.username,
       );
-      socket.broadcast.emit('room:remove_user', updatedRoom);
+      const game = await this.gameService.removePlayerFromGame({
+        roomId: data.id,
+        username: data.username,
+      });
+      // socket.broadcast.emit('room:remove_user', { room: updatedRoom, game });
+      this.server.emit('room:remove_user', { room: updatedRoom, game });
     } catch (error) {
       console.error(error);
     }

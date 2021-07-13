@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { Container } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useGame } from '../../../hooks/useGame';
 import {
+  changeGameReadyStateType,
   gamePickStateSelector,
   gamePlayersSelector,
   gameReadyStateSelector,
@@ -34,6 +35,8 @@ function GamePreview(props: GamePreviewProps) {
   const [figure, setFigure] = useState('');
   const [previewState, setPreviewState] = useState({} as GamePreviewState);
 
+  const dispatch = useDispatch();
+
   const currentUser = useSelector(currentUserSelector);
   const gameReadyState = useSelector(gameReadyStateSelector);
   const gamePickState = useSelector(gamePickStateSelector);
@@ -53,41 +56,51 @@ function GamePreview(props: GamePreviewProps) {
   const simulatedRef = useRef<boolean>(false);
 
   useEffect(() => {
-    if (gameReadyState === GameReadyState.READY_ONE) {
-      waitReasonRef.current = GAME_WAITING_FOR_PLAYER_READY;
-      simulatedRef.current = false;
-      setPreviewState(GamePreviewState.WAIT);
-    } else if (gameReadyState === GameReadyState.READY_ALL) {
-      waitReasonRef.current = 'some loading...';
-      props.handleGameStart(figure);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameReadyState]);
-
-  useEffect(() => {
-    if (gamePickState === GamePickState.ONE) {
-      waitReasonRef.current = GAME_WAITING_FOR_PLAYER_PICK;
-      simulatedRef.current = false;
-      setPreviewState(GamePreviewState.WAIT);
-    } else if (gamePickState === GamePickState.ALL) {
-      waitReasonRef.current = GAME_GOFIRST_INFO_NOTIFY;
-      simulatedRef.current = true;
-      setPreviewState(GamePreviewState.WAIT_PICK);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gamePickState]);
-
-  useEffect(() => {
     if (props.players < 2) {
       simulatedRef.current && (simulatedRef.current = false);
       waitReasonRef.current = GAME_WAITING_FOR_PLAYER_CONNECT;
       setPreviewState(GamePreviewState.WAIT);
+      dispatch(
+        changeGameReadyStateType({
+          readyState: GameReadyState.NOT_READY,
+          pickState: GamePickState.NOONE,
+        })
+      );
     }
 
     if (props.players === 2) {
       setPreviewState(GamePreviewState.PICK);
     }
   }, [props.players]);
+
+  useEffect(() => {
+    if (props.players === 2) {
+      if (gameReadyState === GameReadyState.READY_ONE) {
+        waitReasonRef.current = GAME_WAITING_FOR_PLAYER_READY;
+        simulatedRef.current = false;
+        setPreviewState(GamePreviewState.WAIT);
+      } else if (gameReadyState === GameReadyState.READY_ALL) {
+        waitReasonRef.current = 'some loading...';
+        props.handleGameStart(figure);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameReadyState]);
+
+  useEffect(() => {
+    if (props.players === 2) {
+      if (gamePickState === GamePickState.ONE) {
+        waitReasonRef.current = GAME_WAITING_FOR_PLAYER_PICK;
+        simulatedRef.current = false;
+        setPreviewState(GamePreviewState.WAIT);
+      } else if (gamePickState === GamePickState.ALL) {
+        waitReasonRef.current = GAME_GOFIRST_INFO_NOTIFY;
+        simulatedRef.current = true;
+        setPreviewState(GamePreviewState.WAIT_PICK);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gamePickState]);
 
   const onTimesOut = (state: GamePreviewState) => {
     switch (state) {

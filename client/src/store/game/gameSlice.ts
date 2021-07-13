@@ -1,5 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Game, GameStateType, GameUser } from '../../utils/types/game';
+import {
+  Game,
+  GamePickState,
+  GameReadyState,
+  GameStateType,
+  GameUser,
+} from '../../utils/types/game';
 import GameState from '../state/gameState';
 import RootState from '../state/rootState';
 
@@ -29,14 +35,30 @@ export const gameSlice = createSlice({
       state.game.gameState = action.payload;
     },
 
+    changeGameReadyStateType: (
+      state,
+      action: PayloadAction<{
+        readyState: GameReadyState;
+        pickState: GamePickState;
+      }>
+    ) => {
+      state.game.gameReadyState = action.payload.readyState;
+      state.game.gamePickState = action.payload.pickState;
+    },
+
     clearGame: state => {
       state.game = {} as Game;
     },
   },
 });
 
-export const { updateGame, updateUser, changeGameStateType, clearGame } =
-  gameSlice.actions;
+export const {
+  updateGame,
+  updateUser,
+  changeGameStateType,
+  changeGameReadyStateType,
+  clearGame,
+} = gameSlice.actions;
 
 export const gameStateSelector = (state: RootState) =>
   state.game.game.gameState;

@@ -66,21 +66,23 @@ export class GameGateway {
     this.server.to(gameId).emit('game:move', game);
   }
 
+  // @SubscribeMessage('game:leave')
+  // async handleGameLeave(
+  //   @MessageBody() gameActionDto: GameActionDTO,
+  //   @ConnectedSocket() socket: Socket,
+  // ) {
+  //   console.log('game:leave', gameActionDto);
+
+  //   const gameId = `game${gameActionDto.roomId}`;
+  //   const game = await this.gameService.removePlayerFromGame(gameActionDto);
+  //   socket.leave(gameId);
+  //   this.server.to(gameId).emit('game:leave', game);
+  // }
+
   @SubscribeMessage('game:restart')
   async handleGameRestart(@MessageBody() gameActionDto: GameActionDTO) {
     const gameId = `game${gameActionDto.roomId}`;
     const game = await this.gameService.restartGame(gameActionDto);
     this.server.to(gameId).emit('game:restart', game);
-  }
-
-  @SubscribeMessage('game:leave')
-  async handleGameLeave(
-    @MessageBody() gameActionDto: GameActionDTO,
-    @ConnectedSocket() socket: Socket,
-  ) {
-    const gameId = `game${gameActionDto.roomId}`;
-    const game = await this.gameService.removePlayerFromGame(gameActionDto);
-    socket.leave(gameId);
-    this.server.to(gameId).emit('game:leave', game);
   }
 }

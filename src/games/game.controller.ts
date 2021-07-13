@@ -8,11 +8,6 @@ import { GameService } from './game.service';
 export class GameController {
   constructor(private readonly gameService: GameService) {}
 
-  // @Post('/pick')
-  // async pickFigureGame(@Body() gameActionDto: GameActionDTO) {
-  //   // return this.gameService.updateUser(gameActionDto);
-  // }
-
   @Post('/ready')
   async joinGame(@Body() gameActionDto: GameActionDTO) {
     return await this.gameService.setPlayerReady(gameActionDto);

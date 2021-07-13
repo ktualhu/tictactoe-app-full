@@ -529,8 +529,10 @@ let GameService = class GameService {
     }
     async addNewUser(gameActionDto) {
         const game = await this.getGameById(gameActionDto.roomId);
-        const user = { username: gameActionDto.username };
-        game.players.push(user);
+        if (!game.players.find((user) => user.username === gameActionDto.username)) {
+            const user = { username: gameActionDto.username };
+            game.players.push(user);
+        }
         return game;
     }
     async setPlayerReady(gameActionDto) {
@@ -605,11 +607,15 @@ let GameService = class GameService {
         const game = await this.getGameById(gameActionDto.roomId);
         const username = gameActionDto.username;
         game.players = game.players.filter((player) => player.username !== username);
-        game.readyPlayers = game.readyPlayers.filter((player) => player != username);
-        game.pickedPlayers = game.pickedPlayers.filter((player) => player != username);
+        game.readyPlayers = [];
+        game.pickedPlayers = [];
         game.gameState = GameState.PREVIEW;
         game.gameReadyState = GameReadyState.NOT_READY;
         game.gamePickState = GamePickState.NOONE;
+        if (game.players[0]) {
+            const otherPlayerName = game.players[0].username;
+            game.players[0] = { username: otherPlayerName };
+        }
         return game;
     }
     async getGameUser(game, username) {
@@ -1470,7 +1476,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
+var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GameGateway = void 0;
 const websockets_1 = __webpack_require__(35);
@@ -1520,12 +1526,6 @@ let GameGateway = class GameGateway {
         const gameId = `game${gameActionDto.roomId}`;
         const game = await this.gameService.restartGame(gameActionDto);
         this.server.to(gameId).emit('game:restart', game);
-    }
-    async handleGameLeave(gameActionDto, socket) {
-        const gameId = `game${gameActionDto.roomId}`;
-        const game = await this.gameService.removePlayerFromGame(gameActionDto);
-        socket.leave(gameId);
-        this.server.to(gameId).emit('game:leave', game);
     }
 };
 __decorate([
@@ -1577,17 +1577,9 @@ __decorate([
     __metadata("design:paramtypes", [typeof (_k = typeof gameAction_dto_1.GameActionDTO !== "undefined" && gameAction_dto_1.GameActionDTO) === "function" ? _k : Object]),
     __metadata("design:returntype", Promise)
 ], GameGateway.prototype, "handleGameRestart", null);
-__decorate([
-    websockets_1.SubscribeMessage('game:leave'),
-    __param(0, websockets_1.MessageBody()),
-    __param(1, websockets_1.ConnectedSocket()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_l = typeof gameAction_dto_1.GameActionDTO !== "undefined" && gameAction_dto_1.GameActionDTO) === "function" ? _l : Object, typeof (_m = typeof socket_io_1.Socket !== "undefined" && socket_io_1.Socket) === "function" ? _m : Object]),
-    __metadata("design:returntype", Promise)
-], GameGateway.prototype, "handleGameLeave", null);
 GameGateway = __decorate([
     websockets_1.WebSocketGateway({ namespace: '/game' }),
-    __metadata("design:paramtypes", [typeof (_o = typeof game_service_1.GameService !== "undefined" && game_service_1.GameService) === "function" ? _o : Object])
+    __metadata("design:paramtypes", [typeof (_l = typeof game_service_1.GameService !== "undefined" && game_service_1.GameService) === "function" ? _l : Object])
 ], GameGateway);
 exports.GameGateway = GameGateway;
 
@@ -1610,16 +1602,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b, _c, _d, _e, _f;
+var _a, _b, _c, _d, _e, _f, _g;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.LobbyGateway = void 0;
 const common_1 = __webpack_require__(8);
 const websockets_1 = __webpack_require__(35);
 const socket_io_1 = __webpack_require__(36);
 const rooms_service_1 = __webpack_require__(12);
+const game_service_1 = __webpack_require__(14);
 let LobbyGateway = class LobbyGateway {
-    constructor(roomsService) {
+    constructor(roomsService, gameService) {
         this.roomsService = roomsService;
+        this.gameService = gameService;
         this.logger = new common_1.Logger('LobbyGateway');
     }
     handleUserJoin(data, socket) {
@@ -1639,9 +1633,14 @@ let LobbyGateway = class LobbyGateway {
         }
     }
     async handleRemoveUser(data, socket) {
+        console.log('remove_user', data.username);
         try {
             const updatedRoom = await this.roomsService.removeUser(data.id, data.username);
-            socket.broadcast.emit('room:remove_user', updatedRoom);
+            const game = await this.gameService.removePlayerFromGame({
+                roomId: data.id,
+                username: data.username,
+            });
+            this.server.emit('room:remove_user', { room: updatedRoom, game });
         }
         catch (error) {
             console.error(error);
@@ -1688,7 +1687,7 @@ __decorate([
 ], LobbyGateway.prototype, "handleRemoveUser", null);
 LobbyGateway = __decorate([
     websockets_1.WebSocketGateway(),
-    __metadata("design:paramtypes", [typeof (_f = typeof rooms_service_1.RoomsService !== "undefined" && rooms_service_1.RoomsService) === "function" ? _f : Object])
+    __metadata("design:paramtypes", [typeof (_f = typeof rooms_service_1.RoomsService !== "undefined" && rooms_service_1.RoomsService) === "function" ? _f : Object, typeof (_g = typeof game_service_1.GameService !== "undefined" && game_service_1.GameService) === "function" ? _g : Object])
 ], LobbyGateway);
 exports.LobbyGateway = LobbyGateway;
 
@@ -1723,7 +1722,7 @@ let RoomGateway = class RoomGateway {
     }
     handleLeaveRoom(data, socket) {
         socket.leave(data.roomId);
-        this.server.to(data.roomId).emit('room:leave', data.username);
+        this.server.to(data.roomId).emit('room:leave');
     }
     handlePrivateRoom(data) {
         this.server.to(data.roomId).emit('room:private', data.username);
@@ -1853,7 +1852,7 @@ exports.NotFoundExceptionFilter = NotFoundExceptionFilter;
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("ba139d6004a76d9e4a91")
+/******/ 		__webpack_require__.h = () => ("3d71cd35a5c3d137626b")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */

@@ -6,6 +6,7 @@ import {
   roomAdd,
   updateRoom as sliceUpdateRoom,
 } from '../store/rooms/roomsSlice';
+import { updateGame } from '../store/game/gameSlice';
 
 export const useLobby = () => {
   const [rooms, setRooms] = useState([] as Room[]);
@@ -29,8 +30,9 @@ export const useLobby = () => {
       dispatch(sliceUpdateRoom(room));
     });
 
-    socketRef.current.on('room:remove_user', room => {
-      dispatch(sliceUpdateRoom(room));
+    socketRef.current.on('room:remove_user', data => {
+      dispatch(sliceUpdateRoom(data.room));
+      dispatch(updateGame(data.game));
     });
 
     return () => {

@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateRoomDTO } from './dto/createRoom.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { User } from 'src/users/users.service';
