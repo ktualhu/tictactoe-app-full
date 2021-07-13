@@ -8,14 +8,7 @@ import {
 import { Server, Socket } from 'socket.io';
 import { GameActionDTO } from 'src/games/dto/gameAction.dto';
 import { GameService } from 'src/games/game.service';
-import { options } from './lobby.gateway';
-
-const curOptions = {
-  ...options,
-  namespace: '/game',
-};
-
-@WebSocketGateway(5001, curOptions)
+@WebSocketGateway({ namespace: '/game' })
 export class GameGateway {
   @WebSocketServer() server: Server;
 

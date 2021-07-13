@@ -15,9 +15,12 @@ export const useChat = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    chatSocketRef.current = io('http://localhost:5001/chat', {
-      withCredentials: true,
-    });
+    chatSocketRef.current = io(
+      `${process.env.REACT_APP_API_URL as string}chat`,
+      {
+        withCredentials: true,
+      }
+    );
 
     chatSocketRef.current.on('chat:join', (data: Message) => {
       dispatch(chatAlert(data));

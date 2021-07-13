@@ -6,14 +6,8 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { options } from './lobby.gateway';
 
-const curOptions = {
-  ...options,
-  namespace: '/chat',
-};
-
-@WebSocketGateway(5001, curOptions)
+@WebSocketGateway({ namespace: '/chat' })
 export class ChatGateway {
   @WebSocketServer() server: Server;
 
@@ -33,8 +27,6 @@ export class ChatGateway {
 
   @SubscribeMessage('chat:message')
   handleChatMessage(@MessageBody() data: any) {
-    console.log('chat:message', data);
-
     const chatId = `chat${data.roomId}`;
     this.server.to(chatId).emit('chat:message', data.message);
   }

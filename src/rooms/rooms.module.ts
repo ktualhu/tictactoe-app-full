@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { GameModule } from 'src/games/game.module';
-import { GameService } from 'src/games/game.service';
 import { RoomsController } from './rooms.controller';
 import { RoomsService } from './rooms.service';
 

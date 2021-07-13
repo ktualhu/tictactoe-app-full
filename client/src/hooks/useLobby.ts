@@ -13,7 +13,7 @@ export const useLobby = () => {
   const socketRef = useRef({} as Socket);
 
   useEffect(() => {
-    socketRef.current = io('http://localhost:5001', {
+    socketRef.current = io(process.env.REACT_APP_API_URL as string, {
       withCredentials: true,
     });
 

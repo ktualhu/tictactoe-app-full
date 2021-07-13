@@ -5,6 +5,7 @@ import MessageSectionLayout from '../MessageSectionLayout';
 
 interface IProps {
   addMessage: () => void;
+  isOpen: boolean;
 }
 
 function Logs(props: IProps) {
@@ -16,7 +17,11 @@ function Logs(props: IProps) {
 
   return (
     <React.Fragment>
-      <MessageSectionLayout messages={messages} isLog={true} />
+      <MessageSectionLayout
+        messages={messages}
+        isLog={true}
+        isOpen={props.isOpen}
+      />
     </React.Fragment>
   );
 }

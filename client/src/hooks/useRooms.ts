@@ -12,9 +12,12 @@ export const useRooms = () => {
   const { gameLeave } = useGame();
 
   useEffect(() => {
-    roomSocketRef.current = io('http://localhost:5001/room', {
-      withCredentials: true,
-    });
+    roomSocketRef.current = io(
+      `${process.env.REACT_APP_API_URL as string}room`,
+      {
+        withCredentials: true,
+      }
+    );
 
     roomSocketRef.current.on('room:leave', (data: any) => {
       console.log(`${data} was left the room`);
