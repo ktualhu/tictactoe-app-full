@@ -98,7 +98,6 @@ export class GameService {
       game.pickedPlayers.find((username) => username === gameActionDto.username)
     )
       return;
-    console.log('setPlayerPicked', game.players[0].username);
 
     const playerInd = game.players.findIndex(
       (player) => player.username === gameActionDto.username,

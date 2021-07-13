@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Row, Tabs, Tab, Badge } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
@@ -22,13 +22,15 @@ type MatchParams = {
 type RoomProps = {
   handleRouting?: (path: string) => void;
   routes?: RouteComponentProps<MatchParams>;
+  roomId?: string;
 };
 
 function RoomComponent(props: RoomProps) {
+  const [restartBtnActive, setRestartBtnActive] = useState(false);
   const { joinRoom, leaveRoom } = useRooms();
   const dispatch = useDispatch();
   const currentUser = useSelector(currentUserSelector);
-  const roomId = props.routes?.match.params.id;
+  const roomId = props.roomId || props.routes?.match.params.id;
   const room = useSelector((state: RootState) =>
     roomId ? getRoomById(state, roomId) : null
   );
@@ -44,7 +46,7 @@ function RoomComponent(props: RoomProps) {
         dispatch(updateMyUser(roomId!));
         roomId && joinRoom(roomId, currentUser.username);
       } catch (e) {
-        props.routes?.history.replace('/404', e.response.data.message);
+        console.error(e);
       }
     }
     fetchData();
@@ -79,6 +81,7 @@ function RoomComponent(props: RoomProps) {
                 variant="info"
                 className="mr-3"
                 onClick={handleRestartGame}
+                disabled={!restartBtnActive}
               >
                 Restart
               </Button>
@@ -90,7 +93,11 @@ function RoomComponent(props: RoomProps) {
         </Row>
         <Row className="pl-3 pr-4 pb-4">
           <Col>
-            <Game roomId={roomId!} playersCounter={room.roomUsers.length} />
+            <Game
+              roomId={roomId!}
+              playersCounter={room.roomUsers.length}
+              onGameReady={() => setRestartBtnActive(true)}
+            />
           </Col>
           <Col>{roomId ? <ChatSection roomId={roomId} /> : null}</Col>
         </Row>

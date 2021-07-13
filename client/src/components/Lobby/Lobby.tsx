@@ -14,6 +14,7 @@ import { currentUserSelector } from '../../store/users/usersSlice';
 import { updateRooms } from '../../store/rooms/roomsSlice';
 import RoomCreateForm from '../Form/RoomForm/RoomCreateForm';
 import RoomJoinForm from '../Form/RoomForm/RoomJoinForm';
+import { joinRoom } from '../../utils/helpers/joinRoomRequest';
 
 type LobbyProps = {
   routes?: RouteComponentProps;
@@ -36,7 +37,6 @@ function Lobby(props: LobbyProps) {
       .get('/rooms')
       .then(resp => {
         if (resp.data.rooms) {
-          dispatch(updateRooms(resp.data.rooms));
           dispatch(updateRooms(resp.data.rooms));
         }
         if (resp.data.room_id)
@@ -78,7 +78,8 @@ function Lobby(props: LobbyProps) {
     }
   };
 
-  const goToRoom = (id: string) => {
+  const goToRoom = async (id: string) => {
+    await joinRoom(id);
     props.handleRouting && props.handleRouting('/rooms/' + id);
   };
 

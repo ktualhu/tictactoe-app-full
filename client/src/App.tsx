@@ -5,7 +5,7 @@ import Lobby from './components/Lobby/Lobby';
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { auth, selectIsAuth } from './store/users/usersSlice';
+import { auth, selectIsAuth, selectIsInRoom } from './store/users/usersSlice';
 import Layout from './components/Layout/Layout';
 import RoomComponent from './components/Room/Room';
 import http from './http';
@@ -14,16 +14,17 @@ import NotFound from './components/UI/404';
 
 function App() {
   const isAuth = useSelector(selectIsAuth);
+  const isInRoom = useSelector(selectIsInRoom);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('init index request');
-
     http
       .get('/isAuth')
       .then(resp => {
-        if (resp.data) {
-          dispatch(auth({ username: resp.data }));
+        if (resp.data.username) {
+          dispatch(
+            auth({ username: resp.data.username, roomId: resp.data.roomId })
+          );
         }
       })
       .catch(error => console.error(error));
@@ -37,6 +38,18 @@ function App() {
         exact
         path="/"
         render={props => {
+          // return isAuth ? (
+          //   isInRoom ? (
+          //     <Layout
+          //       child={<RoomComponent roomId={isInRoom} />}
+          //       route={props}
+          //     />
+          //   ) : (
+          //     <Layout child={<Lobby />} route={props} />
+          //   )
+          // ) : (
+          //   <Redirect exact to="/auth" />
+          // );
           return isAuth ? (
             <Layout child={<Lobby />} route={props} />
           ) : (

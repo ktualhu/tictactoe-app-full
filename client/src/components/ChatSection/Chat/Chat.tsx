@@ -19,6 +19,7 @@ import MessageSectionLayout from '../MessageSectionLayout';
 interface IProps {
   roomId: string;
   addMessage: () => void;
+  isOpen: boolean;
 }
 
 function Chat(props: IProps) {
@@ -49,7 +50,11 @@ function Chat(props: IProps) {
 
   return (
     <React.Fragment>
-      <MessageSectionLayout messages={messages} isLog={false} />
+      <MessageSectionLayout
+        messages={messages}
+        isLog={false}
+        isOpen={props.isOpen}
+      />
       <Form onSubmit={event => handleMessageSend(event)}>
         <InputGroup>
           <FormControl
