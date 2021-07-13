@@ -17,7 +17,7 @@ import { getCurrentPlayer } from '../../utils/helpers/currentPlayer';
 interface IGameProps {
   roomId: string;
   playersCounter: number;
-  onGameReady: () => void;
+  onGameReady: (val: boolean) => void;
 }
 
 function Game(props: IGameProps) {
@@ -48,7 +48,7 @@ function Game(props: IGameProps) {
           currentPlayer.goFirst ? blockField(false) : blockField(true);
           initGameField();
         }
-        props.onGameReady();
+        props.onGameReady(true);
         break;
       case GameStateType.RESTART:
         handleGameRestart();
@@ -78,6 +78,15 @@ function Game(props: IGameProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameData.field, gameData.winStrickCells]);
+
+  useEffect(() => {
+    console.log(props.playersCounter);
+
+    if (props.playersCounter < 2) {
+      dispatch(changeGameStateType(GameStateType.WAIT));
+      props.onGameReady(false);
+    }
+  }, [props.playersCounter]);
 
   const initGameField = () => {
     cellsRef.current.forEach((cell, i) => {

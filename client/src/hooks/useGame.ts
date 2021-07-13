@@ -40,9 +40,9 @@ export const useGame = (gameData?: GameAction) => {
       dispatch(updateGame(data));
     });
 
-    gameSocketRef.current.on('game:leave', (data: Game) => {
-      dispatch(updateGame(data));
-    });
+    // gameSocketRef.current.on('game:leave', (data: Game) => {
+    //   dispatch(updateGame(data));
+    // });
 
     return () => {
       gameSocketRef.current.disconnect();
@@ -77,15 +77,15 @@ export const useGame = (gameData?: GameAction) => {
     gameSocketRef.current.emit('game:over', gameData);
   };
 
-  const gameLeave = (gameData: GameAction) => {
-    gameSocketRef.current.emit('game:leave', gameData);
-  };
+  // const gameLeave = (gameData: GameAction) => {
+  //   gameSocketRef.current.emit('game:leave', gameData);
+  // };
 
   return {
     gameJoin,
     gamePicked,
     gameReady,
-    gameLeave,
+    // gameLeave,
     gameMove,
     gameRestart,
     gameOver,

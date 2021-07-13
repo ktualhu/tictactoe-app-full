@@ -73,8 +73,12 @@ export class GameService {
 
   async addNewUser(gameActionDto: GameActionDTO) {
     const game = await this.getGameById(gameActionDto.roomId);
-    const user: GameUser = { username: gameActionDto.username };
-    game.players.push(user);
+    if (
+      !game.players.find((user) => user.username === gameActionDto.username)
+    ) {
+      const user: GameUser = { username: gameActionDto.username };
+      game.players.push(user);
+    }
     return game;
   }
 
@@ -162,15 +166,17 @@ export class GameService {
     game.players = game.players.filter(
       (player) => player.username !== username,
     );
-    game.readyPlayers = game.readyPlayers.filter(
-      (player) => player != username,
-    );
-    game.pickedPlayers = game.pickedPlayers.filter(
-      (player) => player != username,
-    );
+    game.readyPlayers = [];
+    game.pickedPlayers = [];
     game.gameState = GameState.PREVIEW;
     game.gameReadyState = GameReadyState.NOT_READY;
     game.gamePickState = GamePickState.NOONE;
+
+    // clear game data for other user
+    if (game.players[0]) {
+      const otherPlayerName = game.players[0].username;
+      game.players[0] = { username: otherPlayerName };
+    }
     return game;
   }
 

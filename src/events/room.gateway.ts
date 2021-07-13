@@ -21,7 +21,7 @@ export class RoomGateway {
   @SubscribeMessage('room:leave')
   handleLeaveRoom(@MessageBody() data: any, @ConnectedSocket() socket: Socket) {
     socket.leave(data.roomId);
-    this.server.to(data.roomId).emit('room:leave', data.username);
+    this.server.to(data.roomId).emit('room:leave');
   }
 
   @SubscribeMessage('room:private')

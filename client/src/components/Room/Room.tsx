@@ -96,7 +96,7 @@ function RoomComponent(props: RoomProps) {
             <Game
               roomId={roomId!}
               playersCounter={room.roomUsers.length}
-              onGameReady={() => setRestartBtnActive(true)}
+              onGameReady={(val: boolean) => setRestartBtnActive(val)}
             />
           </Col>
           <Col>{roomId ? <ChatSection roomId={roomId} /> : null}</Col>

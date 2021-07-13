@@ -9,7 +9,7 @@ export const useRooms = () => {
   const roomSocketRef = useRef({} as Socket);
   const { addUser, removeUser } = useLobby();
   const { showChatLeaveAlert } = useChat();
-  const { gameLeave } = useGame();
+  // const { gameLeave } = useGame();
 
   useEffect(() => {
     roomSocketRef.current = io(
@@ -21,11 +21,6 @@ export const useRooms = () => {
 
     roomSocketRef.current.on('room:leave', (data: any) => {
       console.log(`${data} was left the room`);
-    });
-
-    // test event
-    roomSocketRef.current.on('room:private', (data: any) => {
-      console.log(`${data} made private action`);
     });
 
     return () => {
@@ -46,16 +41,10 @@ export const useRooms = () => {
   };
 
   const leaveRoom = (roomId: string, username: string) => {
+    // showChatLeaveAlert(roomId, username);
     removeUser(roomId, username);
-    showChatLeaveAlert(roomId, username);
-    gameLeave({ roomId, username });
-    roomSocketRef.current.emit('room:leave', { roomId, username });
+    // roomSocketRef.current.emit('room:leave');
   };
 
-  // test event
-  const privateRoom = (roomId: string, username: string) => {
-    roomSocketRef.current.emit('room:private', { roomId, username });
-  };
-
-  return { joinRoom, leaveRoom, privateRoom };
+  return { joinRoom, leaveRoom };
 };
