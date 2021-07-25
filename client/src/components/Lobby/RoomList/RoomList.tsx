@@ -58,6 +58,7 @@ function RoomList(props: IProps) {
               <button
                 className="btn btn__success"
                 onClick={() => props.handleJoinRoom(room.roomId)}
+                disabled={room.roomUsers.length >= 2}
               >
                 Join Room
               </button>

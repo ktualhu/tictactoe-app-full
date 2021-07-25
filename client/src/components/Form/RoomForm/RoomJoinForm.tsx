@@ -42,7 +42,9 @@ function RoomJoinForm(props: RoomProps) {
           />
         </div>
         <span className="error__msg">{passwordField.errorMsg}</span>
-        <button className="btn btn__info">Join</button>
+        <button type="submit" className="btn btn__info">
+          Join
+        </button>
       </form>
     </React.Fragment>
   );

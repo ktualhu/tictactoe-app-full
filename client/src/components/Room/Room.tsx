@@ -72,7 +72,7 @@ function RoomComponent(props: RoomProps) {
     return (
       <React.Fragment>
         <div className="header__content">
-          <span className="header__logo">Room Title Long Long</span>
+          <span className="header__logo">{room.roomTitle}</span>
           <span className="header__middle"></span>
           <span className="header__info">
             <button
