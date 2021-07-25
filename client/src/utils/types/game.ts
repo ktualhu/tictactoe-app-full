@@ -1,10 +1,13 @@
 export const GAME_PICKING_FIGURE_NOTIFY = 'Picking figure for you...';
-export const GAME_GOFIRST_INFO_NOTIFY = 'Decide who`ll go first...';
+export const GAME_GOFIRST_INFO_NOTIFY = 'Choosing who will go first...';
 export const GAME_CHECKING_FOR_GAME = 'Checking for game in this room...';
 export const GAME_WAITING_FOR_PLAYER_CONNECT = 'Waiting for one more player...';
-export const GAME_WAITING_FOR_PLAYER_READY = 'Waiting for player is ready...';
+export const GAME_WAITING_FOR_PLAYER_READY =
+  'Waiting for another player is ready...';
 export const GAME_WAITING_FOR_PLAYER_PICK =
-  'Waiting while player is picking figure...';
+  'Wait until another player is picking figure...';
+export const GAME_DESIRED_FIGURE =
+  'Type desired "figure" before time is going out:';
 
 export enum GameStateType {
   PREVIEW = 'preview',

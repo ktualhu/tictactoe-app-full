@@ -1,16 +1,11 @@
 import { useEffect, useState, useRef } from 'react';
-import {
-  Col,
-  Row,
-  Button,
-  Form,
-  FormGroup,
-  InputGroup,
-  FormControl,
-} from 'react-bootstrap';
 import useTimer from '../../../hooks/useTimer';
-import { GamePreviewState } from '../../../utils/types/game';
+import {
+  GamePreviewState,
+  GAME_DESIRED_FIGURE,
+} from '../../../utils/types/game';
 import { PICK_FIGURE_TIMER } from '../../../utils/constants';
+import '../styles/styles.css';
 
 type GamePickFigureProps = {
   handlePickFigure: (figure: string) => void;
@@ -30,52 +25,42 @@ const GamePickFigure = (props: GamePickFigureProps) => {
   }, []);
 
   return (
-    <Col>
-      <Row className="justify-content-md-center mb-3">
-        <h1 className="display-4" style={{ fontSize: '1.5rem' }}>
-          Type desired "figure" before time is going out:{' '}
-          <span className="font-weight-bold">{timer.getTimer()}</span>
-        </h1>
-      </Row>
-      <Form
+    <div className="game__container__row loading">
+      <form
+        className="loading__content"
         onSubmit={event => {
           event.preventDefault();
           props.handlePickFigure(figure);
         }}
       >
-        <Row className="justify-content-md-center mb-3">
-          <FormGroup>
-            <InputGroup>
-              <FormControl
-                className="form-control-lg pr-3 pl-3"
-                type="text"
-                maxLength={1}
-                ref={inputRef}
-                style={{
-                  width: '50px',
-                  height: '55px',
-                  fontSize: '1.5rem',
-                }}
-                value={figure}
-                onChange={event =>
-                  setFigure(event.target.value.toLocaleUpperCase())
-                }
-              />
-            </InputGroup>
-          </FormGroup>
-        </Row>
-        <Row className="justify-content-md-center">
-          <Button
-            type="submit"
-            variant="info"
-            className="btn-lg"
-            disabled={!!!figure || false}
-          >
-            Pick
-          </Button>
-        </Row>
-      </Form>
-    </Col>
+        <span style={{ fontSize: '1.3em' }}>
+          {GAME_DESIRED_FIGURE}{' '}
+          <span style={{ textDecoration: 'underline' }}>
+            {timer.getTimer()}
+          </span>
+        </span>
+        <div className="input__box" style={{ fontSize: '1', width: '40%' }}>
+          <input
+            type="text"
+            placeholder="Figure..."
+            maxLength={1}
+            style={{ width: '100%', textAlign: 'center' }}
+            value={figure}
+            onChange={event =>
+              setFigure(event.target.value.toLocaleUpperCase())
+            }
+          />
+        </div>
+        <button
+          type="submit"
+          className="btn btn__info auth_btn shadow"
+          style={{ margin: '0 auto' }}
+          disabled={!!!figure || false}
+        >
+          Pick
+        </button>
+      </form>
+    </div>
   );
 };
 

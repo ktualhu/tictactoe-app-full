@@ -1,19 +1,34 @@
-// components
-import Logo from './Logo/Logo';
-import Info from './Info/Info';
-
-import { Row, Col } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import http from '../../../http';
+import { signout } from '../../../store/users/usersSlice';
+import './styles/styles.css';
 
 function Header() {
+  const dispatch = useDispatch();
   return (
-    <Row className="p-3 border-bottom border-white">
-      <Col>
-        <Logo />
-      </Col>
-      <Col xs lg="2">
-        <Info />
-      </Col>
-    </Row>
+    <header className="header">
+      <div className="header__content">
+        <span className="header__logo">
+          TICTACTOE<span>rooms</span>
+        </span>
+        <span className="header__middle"></span>
+        <span className="header__info">
+          <button
+            className="btn btn__info"
+            onClick={() => {
+              http
+                .post('/auth/logout')
+                .then(() => {
+                  dispatch(signout());
+                })
+                .catch(error => console.error(error));
+            }}
+          >
+            Sign Out
+          </button>
+        </span>
+      </div>
+    </header>
   );
 }
 

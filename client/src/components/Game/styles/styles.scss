@@ -1,0 +1,50 @@
+@import '../../../styles/colors/colors';
+@import '../../../styles/forms/forms';
+@import '../../../styles/buttons/buttons';
+
+.gameBlock {
+  flex: 0 1 45%;
+  margin: auto;
+
+  .game__container {
+    height: 100%;
+  }
+}
+
+.loading__content {
+  margin: auto;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+}
+
+.game__container__row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 2em;
+
+  .row__cell {
+    background-color: #fefefe;
+    width: 120px;
+    height: 125px;
+    border: none;
+    -webkit-box-shadow: -1px 4px 11px 0px rgba(33, 37, 41, 0.17);
+    -moz-box-shadow: -1px 4px 11px 0px rgba(33, 37, 41, 0.17);
+    box-shadow: -1px 4px 11px 0px rgba(33, 37, 41, 0.17);
+    transition: 0.4s;
+
+    &:hover {
+      cursor: pointer;
+      background-color: #f0f0f0;
+    }
+  }
+}
+
+.last {
+  margin-bottom: 0 !important;
+}
+
+.row__cell__value {
+  font-size: 4em;
+}

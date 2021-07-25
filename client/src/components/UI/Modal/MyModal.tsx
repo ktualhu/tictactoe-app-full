@@ -1,4 +1,6 @@
-import { Modal } from 'react-bootstrap';
+import { useEffect } from 'react';
+import CloseSVG from '../../../images/cancel.svg';
+import './styles/styles.css';
 
 export interface IModal {
   title: string;
@@ -12,20 +14,34 @@ type MyModalProps = {
 };
 
 function MyModal(props: MyModalProps) {
+  useEffect(() => {
+    const listener = (event: MouseEvent) => {
+      if (event.target === document.querySelector('.modal__background')) {
+        props.onHide();
+      }
+    };
+    window.addEventListener('click', listener);
+    return () => {
+      window.removeEventListener('click', listener);
+    };
+  }, []);
+
   return (
-    <Modal
-      show={props.data.show}
-      onHide={props.onHide}
-      centered
-      size="sm"
-      aria-labelledby="contained-modal-title-vcenter"
-      animation={false}
-    >
-      <Modal.Header closeButton>
-        <Modal.Title>{props.data.title}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>{props.data.content}</Modal.Body>
-    </Modal>
+    <div className="modal__background">
+      <div className="modal__container">
+        <div
+          className="header__content"
+          style={{ padding: '0 0 1em 0', borderBottom: '1px solid #212529' }}
+        >
+          <span className="header__logo">{props.data.title}</span>
+          <span className="header__middle"></span>
+          <span className="header__info" onClick={props.onHide}>
+            <img src={CloseSVG} className="closeBtn__img" />
+          </span>
+        </div>
+        {props.data.content}
+      </div>
+    </div>
   );
 }
 

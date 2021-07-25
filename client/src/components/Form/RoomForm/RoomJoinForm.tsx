@@ -1,8 +1,9 @@
 import React from 'react';
-import { Button, Form, FormGroup } from 'react-bootstrap';
-import http from '../../../http';
 import { useFormField } from '../../../utils/helpers/form';
 import { joinRoom } from '../../../utils/helpers/joinRoomRequest';
+
+import './styles/styles.css';
+import '../../../styles/error/error.css';
 
 type RoomProps = {
   roomId: string;
@@ -30,23 +31,20 @@ function RoomJoinForm(props: RoomProps) {
   };
 
   return (
-    <Form noValidate onSubmit={event => handleSubmit(event)}>
-      <Form.Group>
-        <Form.Control
-          placeholder="Password"
-          type="password"
-          {...passwordField.props}
-        />
-        <Form.Control.Feedback type="invalid">
-          {passwordField.errorMsg}
-        </Form.Control.Feedback>
-      </Form.Group>
-      <FormGroup>
-        <Button type="submit" className="w-100 btn btn-info btn-lgbtn-block">
-          Enter
-        </Button>
-      </FormGroup>
-    </Form>
+    <React.Fragment>
+      <form className="modal__content" onSubmit={event => handleSubmit(event)}>
+        <div className="input__box" style={{ margin: '0 0 1em 0' }}>
+          <input
+            type="password"
+            placeholder="Room Password"
+            className="modalInput"
+            {...passwordField.props}
+          />
+        </div>
+        <span className="error__msg">{passwordField.errorMsg}</span>
+        <button className="btn btn__info">Join</button>
+      </form>
+    </React.Fragment>
   );
 }
 

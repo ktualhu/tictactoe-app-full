@@ -1,10 +1,11 @@
 export const validateTextField = (text: string) => {
+  const trimmedText = text.trim();
   let valid = false;
-  if (text.length < 5) {
+  if (trimmedText.length < 5) {
     valid = false;
   }
 
-  if (text.length >= 5) {
+  if (trimmedText.length >= 5) {
     valid = true;
   }
   return valid;

@@ -14,6 +14,8 @@ import { useGame } from '../../hooks/useGame';
 import RootState from '../../store/state/rootState';
 import { getCurrentPlayer } from '../../utils/helpers/currentPlayer';
 
+import './styles/styles.css';
+
 interface IGameProps {
   roomId: string;
   playersCounter: number;
@@ -44,7 +46,7 @@ function Game(props: IGameProps) {
     switch (gameState) {
       case GameStateType.PLAY:
         if (currentPlayer && currentPlayer.figure) {
-          cellsRef.current = document.querySelectorAll('.cell');
+          cellsRef.current = document.querySelectorAll('.row__cell');
           currentPlayer.goFirst ? blockField(false) : blockField(true);
           initGameField();
         }
@@ -80,8 +82,6 @@ function Game(props: IGameProps) {
   }, [gameData.field, gameData.winStrickCells]);
 
   useEffect(() => {
-    console.log(props.playersCounter);
-
     if (props.playersCounter < 2) {
       dispatch(changeGameStateType(GameStateType.WAIT));
       props.onGameReady(false);
@@ -95,9 +95,9 @@ function Game(props: IGameProps) {
     });
   };
 
-  const handleCellClick: React.MouseEventHandler<HTMLTableElement> = event => {
+  const handleCellClick: React.MouseEventHandler<HTMLButtonElement> = event => {
     if (!(event.target instanceof Element)) return;
-    if (!event.target.classList.contains('cell')) return;
+    // if (!event.target.classList.contains('cell')) return;
     if (!currentPlayer) return;
     const cellId = +event.target.id;
     const gameData: GameAction = {
@@ -144,31 +144,39 @@ function Game(props: IGameProps) {
   };
 
   const renderButtonText = (el: Element) => {
-    const h1 = document.createElement('h1');
-    h1.setAttribute('className', 'display-3');
-    h1.textContent = el.textContent;
+    const cellText = document.createElement('span');
+    cellText.setAttribute('class', 'row__cell__value');
+    cellText.textContent = el.textContent;
     el.textContent = '';
     document
       .getElementById(`${el.id}`)
-      ?.insertAdjacentElement('afterbegin', h1);
+      ?.insertAdjacentElement('afterbegin', cellText);
   };
 
-  switch (gameState) {
-    case GameStateType.RESTART:
-    case GameStateType.PLAY:
-    case GameStateType.OVER:
-      return (
-        <GameField field={gameData.field} handleCellClick={handleCellClick} />
-      );
-    default:
-      return (
-        <GamePreview
-          roomId={props.roomId}
-          handleGameStart={handleGameStart}
-          players={props.playersCounter}
-        />
-      );
-  }
+  const renderCurrentState = () => {
+    switch (gameState) {
+      case GameStateType.RESTART:
+      case GameStateType.PLAY:
+      case GameStateType.OVER:
+        return (
+          <GameField field={gameData.field} handleCellClick={handleCellClick} />
+        );
+      default:
+        return (
+          <GamePreview
+            roomId={props.roomId}
+            handleGameStart={handleGameStart}
+            players={props.playersCounter}
+          />
+        );
+    }
+  };
+
+  return (
+    <div className="gameBlock">
+      <div className="game__container">{renderCurrentState()}</div>
+    </div>
+  );
 }
 
 export default Game;

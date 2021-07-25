@@ -1,15 +1,4 @@
 import React from 'react';
-import {
-  Button,
-  Col,
-  Container,
-  Form,
-  FormControl,
-  FormGroup,
-  InputGroup,
-  Row,
-} from 'react-bootstrap';
-import Title from '../../UI/Title/Title';
 import { useFormField } from '../../../utils/helpers/form';
 import { RouteComponentProps } from 'react-router-dom';
 
@@ -18,6 +7,10 @@ import { useDispatch } from 'react-redux';
 import { auth } from '../../../store/users/usersSlice';
 import { User } from '../../../utils/types/users';
 import http from '../../../http';
+
+import './styles/styles.css';
+import '../../../styles/forms/forms.css';
+import '../../../styles/error/error.css';
 
 function LoginForm({ history }: RouteComponentProps) {
   const userField = useFormField('username');
@@ -39,39 +32,55 @@ function LoginForm({ history }: RouteComponentProps) {
   };
 
   return (
-    <Container
-      className={'h-100 d-flex justify-content-center container-sm'}
-      style={{ maxWidth: '320px' }}
-    >
-      <Row className="justify-content-center align-items-center">
-        <Col className="p-5 rounded">
-          <Title text="Sign In" />
-          <Form noValidate onSubmit={event => handleSubmit(event)}>
-            <FormGroup>
-              <InputGroup className="mb-3">
-                <InputGroup.Prepend>
-                  <InputGroup.Text>@</InputGroup.Text>
-                </InputGroup.Prepend>
-                <FormControl
-                  placeholder="Username"
-                  type="text"
-                  {...userField.props}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {userField.errorMsg}
-                </Form.Control.Feedback>
-              </InputGroup>
-            </FormGroup>
-            <Button
-              type="submit"
-              className="w-100 btn btn-info btn-lgbtn-block"
-            >
-              Enter
-            </Button>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+    <div className="auth__block">
+      <form className="auth" onSubmit={event => handleSubmit(event)}>
+        <span className="auth__title">Sign In</span>
+        <div className="input__box">
+          <span className="prefix">@</span>
+          <input
+            type="text"
+            style={{ padding: '.8em' }}
+            placeholder="Username"
+            {...userField.props}
+          />
+        </div>
+        <span className="error__msg">{userField.errorMsg}</span>
+        <button className="btn btn__info auth_btn shadow">Sign In</button>
+      </form>
+    </div>
+    // <Container
+    //   classNameName={'h-100 d-flex justify-content-center container-sm'}
+    //   style={{ maxWidth: '320px' }}
+    // >
+    //   <Row classNameName="justify-content-center align-items-center">
+    //     <Col classNameName="p-5 rounded">
+    //       <Title text="Sign In" />
+    //       <Form noValidate onSubmit={event => handleSubmit(event)}>
+    //         <FormGroup>
+    //           <InputGroup classNameName="mb-3">
+    //             <InputGroup.Prepend>
+    //               <InputGroup.Text>@</InputGroup.Text>
+    //             </InputGroup.Prepend>
+    //             <FormControl
+    //               placeholder="Username"
+    //               type="text"
+    //               {...userField.props}
+    //             />
+    //             <Form.Control.Feedback type="invalid">
+    //               {userField.errorMsg}
+    //             </Form.Control.Feedback>
+    //           </InputGroup>
+    //         </FormGroup>
+    //         <Button
+    //           type="submit"
+    //           classNameName="w-100 btn btn-info btn-lgbtn-block"
+    //         >
+    //           Enter
+    //         </Button>
+    //       </Form>
+    //     </Col>
+    //   </Row>
+    // </Container>
   );
 }
 

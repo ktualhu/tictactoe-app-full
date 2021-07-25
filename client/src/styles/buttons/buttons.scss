@@ -1,0 +1,39 @@
+@import '../colors/colors';
+
+.btn {
+  border: none;
+  padding: 1em;
+  font-weight: bold;
+  border-radius: 0.3em;
+  transition: 0.4s;
+
+  &:hover {
+    cursor: pointer;
+    color: $third-color;
+  }
+}
+
+.btn__success {
+  background-color: $btn-success;
+
+  &:hover {
+    background-color: $btn-success-hover;
+  }
+}
+
+.btn__info {
+  background-color: $btn-info;
+
+  &:hover {
+    background-color: $btn-info-hover;
+  }
+}
+
+.btn__remove {
+  margin-left: 0.3em;
+  background-color: $btn-danger;
+
+  &:hover {
+    background-color: $btn-danger-hover;
+  }
+}

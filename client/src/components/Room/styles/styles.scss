@@ -1,0 +1,40 @@
+@import '../../../styles/headerContent/headerContent';
+@import '../../../styles/buttons/buttons';
+
+.content__grid {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.pagination {
+  background-color: #212529;
+  color: white;
+
+  .pagination__content {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    padding: 1em 0;
+
+    .pagination__block {
+      display: flex;
+      flex: 1 0 25%;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.3em;
+    }
+
+    .pagination__current {
+      display: flex;
+      flex: 1 0 25%;
+    }
+
+    .pagination__next {
+      display: flex;
+      flex: 1 0 25%;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

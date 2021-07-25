@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "mappings": "ACOA,mBAAmB;AAUnB,kBAAkB;ADflB,AAAA,WAAW,CAAC;EACV,KAAK,ECEO,OAAO;EDDnB,SAAS,EAAE,KAAK;EAChB,UAAU,EAAE,MAAM;EAClB,aAAa,EAAE,GAAG;CACnB",
+    "sources": [
+        "error.scss",
+        "../colors/colors.scss"
+    ],
+    "names": [],
+    "file": "error.css"
+}

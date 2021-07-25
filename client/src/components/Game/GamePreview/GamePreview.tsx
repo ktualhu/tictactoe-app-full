@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
-import { Container } from 'react-bootstrap';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGame } from '../../../hooks/useGame';
 import {
@@ -189,11 +188,7 @@ function GamePreview(props: GamePreviewProps) {
     }
   };
 
-  return (
-    <Container className="d-flex align-items-center" style={{ height: '100%' }}>
-      {renderCurrentGamePreviewState()}
-    </Container>
-  );
+  return <React.Fragment>{renderCurrentGamePreviewState()}</React.Fragment>;
 }
 
 export default GamePreview;

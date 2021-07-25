@@ -15,6 +15,8 @@ import Chat from '../ChatSection/Chat/Chat';
 import ChatSection from '../ChatSection/ChatSection';
 import Game from '../Game/Game';
 
+import './styles/styles.css';
+
 type MatchParams = {
   id: string;
 };
@@ -69,42 +71,81 @@ function RoomComponent(props: RoomProps) {
   if (room) {
     return (
       <React.Fragment>
-        <Row className="p-3">
-          <Col>
-            <Row className="pl-3">
-              <h3>{room.roomTitle}</h3>
-            </Row>
-          </Col>
-          <Col>
-            <Row className="pr-4 justify-content-end">
-              <Button
-                variant="info"
-                className="mr-3"
-                onClick={handleRestartGame}
-                disabled={!restartBtnActive}
-              >
-                Restart
-              </Button>
-              <Button variant="info" onClick={handleLeaveRoom}>
-                Back To Lobby
-              </Button>
-            </Row>
-          </Col>
-        </Row>
-        <Row className="pl-3 pr-4 pb-4">
-          <Col>
-            <Game
-              roomId={roomId!}
-              playersCounter={room.roomUsers.length}
-              onGameReady={(val: boolean) => setRestartBtnActive(val)}
-            />
-          </Col>
-          <Col>{roomId ? <ChatSection roomId={roomId} /> : null}</Col>
-        </Row>
+        <div className="header__content">
+          <span className="header__logo">Room Title Long Long</span>
+          <span className="header__middle"></span>
+          <span className="header__info">
+            <button
+              className="btn btn__info"
+              onClick={handleRestartGame}
+              disabled={!restartBtnActive}
+            >
+              Restart
+            </button>
+            <button
+              className="btn btn__info"
+              style={{ marginLeft: '.3em' }}
+              onClick={handleLeaveRoom}
+            >
+              Back To Lobby
+            </button>
+          </span>
+        </div>
+        <div className="content__grid">
+          <Game
+            roomId={roomId!}
+            playersCounter={room.roomUsers.length}
+            onGameReady={(val: boolean) => setRestartBtnActive(val)}
+          />
+          <ChatSection roomId={roomId!} />
+        </div>
+        <footer className="pagination">
+          <div className="pagination__content"></div>
+        </footer>
       </React.Fragment>
     );
   }
   return null;
+
+  // if (room) {
+  //   return (
+  //     <React.Fragment>
+  //       <Row className="p-3">
+  //         <Col>
+  //           <Row className="pl-3">
+  //             <h3>{room.roomTitle}</h3>
+  //           </Row>
+  //         </Col>
+  //         <Col>
+  //           <Row className="pr-4 justify-content-end">
+  //             <Button
+  //               variant="info"
+  //               className="mr-3"
+  //               onClick={handleRestartGame}
+  //               disabled={!restartBtnActive}
+  //             >
+  //               Restart
+  //             </Button>
+  //             <Button variant="info" onClick={handleLeaveRoom}>
+  //               Back To Lobby
+  //             </Button>
+  //           </Row>
+  //         </Col>
+  //       </Row>
+  //       <Row className="pl-3 pr-4 pb-4">
+  //         <Col>
+  //           <Game
+  //             roomId={roomId!}
+  //             playersCounter={room.roomUsers.length}
+  //             onGameReady={(val: boolean) => setRestartBtnActive(val)}
+  //           />
+  //         </Col>
+  //         <Col>{roomId ? <ChatSection roomId={roomId} /> : null}</Col>
+  //       </Row>
+  //     </React.Fragment>
+  //   );
+  // }
+  // return null;
 }
 
 export default RoomComponent;

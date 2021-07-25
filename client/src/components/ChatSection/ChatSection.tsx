@@ -8,6 +8,8 @@ import { MessageType } from '../../utils/types/chat-message';
 import Chat from './Chat/Chat';
 import Logs from './LogsTab/LogsTab';
 
+import './styles/styles.css';
+
 enum TabType {
   CHAT,
   LOGS,
@@ -66,72 +68,81 @@ function ChatSection(props: IProps) {
     }
   };
 
-  const renderMsgCounter = (counter: number) => {
-    if (counter) {
-      if (counter > 5) return '+5';
-      else return counter;
-    }
-    return null;
-  };
-
   return (
-    <Tabs>
-      <Tab
-        eventKey="chat"
-        title={
-          <React.Fragment>
-            <Col className="h-100 d-flex justify-content-center align-items-center fs-6">
-              <span className="fs-6">Chat</span>
-              <Badge
-                variant="primary"
-                style={{
-                  position: 'absolute',
-                  right: '-13px',
-                  top: '-5px',
-                }}
-              >
-                {renderMsgCounter(msgCounter.chatMsgCounter)}
-              </Badge>
-            </Col>
-          </React.Fragment>
-        }
-        tabClassName="bg-dark text-light"
-        onEntered={() => setTabType(TabType.CHAT)}
-      >
+    <div className="chatBlock">
+      <div className="chat__container">
         <Chat
           roomId={props.roomId}
           addMessage={() => incMsgCounter(TabType.CHAT)}
           isOpen={tabType === TabType.CHAT || false}
+          logsMsgCounter={msgCounter.logsMsgCounter}
+          onChangeTab={() => setTabType(TabType.LOGS)}
         />
-      </Tab>
-      <Tab
-        eventKey="logs"
-        title={
-          <React.Fragment>
-            <Col className="h-100 d-flex justify-content-center align-items-center ">
-              <span>Logs</span>
-              <Badge
-                variant="primary"
-                style={{
-                  position: 'absolute',
-                  right: '-13px',
-                  top: '-5px',
-                }}
-              >
-                {renderMsgCounter(msgCounter.logsMsgCounter)}
-              </Badge>
-            </Col>
-          </React.Fragment>
-        }
-        tabClassName="bg-dark text-light"
-        onEntered={() => setTabType(TabType.LOGS)}
-      >
         <Logs
           addMessage={() => incMsgCounter(TabType.LOGS)}
           isOpen={tabType === TabType.LOGS || false}
+          chatMsgCounter={msgCounter.chatMsgCounter}
+          onChangeTab={() => setTabType(TabType.CHAT)}
         />
-      </Tab>
-    </Tabs>
+      </div>
+    </div>
+    // <Tabs>
+    //   <Tab
+    //     eventKey="chat"
+    //     title={
+    //       <React.Fragment>
+    //         <Col className="h-100 d-flex justify-content-center align-items-center fs-6">
+    //           <span className="fs-6">Chat</span>
+    //           <Badge
+    //             variant="primary"
+    //             style={{
+    //               position: 'absolute',
+    //               right: '-13px',
+    //               top: '-5px',
+    //             }}
+    //           >
+    //             {renderMsgCounter(msgCounter.chatMsgCounter)}
+    //           </Badge>
+    //         </Col>
+    //       </React.Fragment>
+    //     }
+    //     tabClassName="bg-dark text-light"
+    //     onEntered={() => setTabType(TabType.CHAT)}
+    //   >
+    //     <Chat
+    //       roomId={props.roomId}
+    //       addMessage={() => incMsgCounter(TabType.CHAT)}
+    //       isOpen={tabType === TabType.CHAT || false}
+    //     />
+    //   </Tab>
+    //   <Tab
+    //     eventKey="logs"
+    //     title={
+    //       <React.Fragment>
+    //         <Col className="h-100 d-flex justify-content-center align-items-center ">
+    //           <span>Logs</span>
+    //           <Badge
+    //             variant="primary"
+    //             style={{
+    //               position: 'absolute',
+    //               right: '-13px',
+    //               top: '-5px',
+    //             }}
+    //           >
+    //             {renderMsgCounter(msgCounter.logsMsgCounter)}
+    //           </Badge>
+    //         </Col>
+    //       </React.Fragment>
+    //     }
+    //     tabClassName="bg-dark text-light"
+    //     onEntered={() => setTabType(TabType.LOGS)}
+    //   >
+    //     <Logs
+    //       addMessage={() => incMsgCounter(TabType.LOGS)}
+    //       isOpen={tabType === TabType.LOGS || false}
+    //     />
+    //   </Tab>
+    // </Tabs>
   );
 }
 

@@ -1,0 +1,30 @@
+.header__content {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  padding: 1em 3em;
+
+  .header__logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3em;
+
+    span {
+      margin-top: 0.2em;
+      margin-left: 0.2em;
+      font-size: 0.8em;
+      color: skyblue;
+    }
+  }
+
+  .header__middle {
+    display: flex;
+  }
+
+  .header__info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

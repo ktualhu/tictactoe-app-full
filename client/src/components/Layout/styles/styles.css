@@ -1,0 +1,22 @@
+/* Button Colors */
+/* Badge Colors */
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap");
+.container {
+  font-family: "Rubik";
+  font-weight: 400;
+  max-width: 1024px;
+  margin: 0 auto;
+  font-size: 1em;
+}
+
+.container .content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #f3f3f3;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+/*# sourceMappingURL=styles.css.map */

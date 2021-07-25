@@ -1,0 +1,28 @@
+@import '../colors/colors';
+
+.badge__block {
+  position: absolute;
+  display: inline-flex;
+  margin-top: -0.4em;
+  margin-left: 0.1em;
+}
+
+.badge {
+  font-size: 0.7em;
+  font-weight: bold;
+  border: 1px solid $primary-color;
+  border-radius: 0.3em;
+  padding: 0.1em;
+  -webkit-box-shadow: -2px 5px 12px -3px rgba(33, 63, 86, 0.3);
+  -moz-box-shadow: -2px 5px 12px -3px rgba(33, 63, 86, 0.3);
+  box-shadow: -2px 5px 12px -3px rgba(33, 63, 86, 0.3);
+  margin-left: 0.2em;
+}
+
+.badge__private {
+  background-color: $sky-color;
+}
+
+.badge__owner {
+  background-color: $palevio-color;
+}

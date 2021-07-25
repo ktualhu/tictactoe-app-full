@@ -1,0 +1,17 @@
+.auth__block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  .auth {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+
+    .auth__title {
+      font-size: 2em;
+      margin-bottom: 1em;
+    }
+  }
+}

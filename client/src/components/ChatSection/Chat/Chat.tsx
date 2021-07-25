@@ -1,12 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Button,
-  Container,
-  FormControl,
-  InputGroup,
-  Row,
-  Form,
-} from 'react-bootstrap';
 import { Message, MessageType } from '../../../utils/types/chat-message';
 
 import { useChat } from '../../../hooks/useChat';
@@ -16,10 +8,16 @@ import { getMessages } from '../../../store/chat/chatSlice';
 import { constructChatMessage } from '../../../utils/helpers/constructChatMessage';
 import MessageSectionLayout from '../MessageSectionLayout';
 
+import '../styles/styles.css';
+import LogsSVG from '../../../images/logs.svg';
+import SendSVG from '../../../images/send.svg';
+
 interface IProps {
   roomId: string;
   addMessage: () => void;
   isOpen: boolean;
+  logsMsgCounter: number;
+  onChangeTab: () => void;
 }
 
 function Chat(props: IProps) {
@@ -48,18 +46,42 @@ function Chat(props: IProps) {
     return msg;
   };
 
+  const renderUnreadMsgCounter = () => {
+    if (props.logsMsgCounter) {
+      return (
+        <div className="chat__msgNotify">
+          {props.logsMsgCounter > 5 ? '+5' : props.logsMsgCounter}
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
-    <React.Fragment>
+    <div style={props.isOpen ? { display: 'block' } : { display: 'none' }}>
       <MessageSectionLayout
+        currentUser={currentUser.username}
         messages={messages}
         isLog={false}
         isOpen={props.isOpen}
       />
-      <Form onSubmit={event => handleMessageSend(event)}>
-        <InputGroup>
-          <FormControl
-            placeholder="Your message"
-            aria-label="Your message"
+      <div className="chat__formBlock">
+        <form
+          className="chat__formBlock__form"
+          onSubmit={event => handleMessageSend(event)}
+        >
+          <button
+            className="chatBtn"
+            style={{ position: 'relative' }}
+            onClick={props.onChangeTab}
+          >
+            <img src={LogsSVG} className="chatBtn__img" />
+            {renderUnreadMsgCounter()}
+          </button>
+          <input
+            type="text"
+            className="input"
+            placeholder="Your message..."
             value={message.text}
             onChange={event =>
               setMessage({
@@ -68,12 +90,37 @@ function Chat(props: IProps) {
               } as Message)
             }
           />
-          <Button type="submit" variant="info" id="button-addon2">
-            Send
-          </Button>
-        </InputGroup>
-      </Form>
-    </React.Fragment>
+          <button className="chatBtn">
+            <img src={SendSVG} className="chatBtn__img" />
+          </button>
+        </form>
+      </div>
+    </div>
+    // <React.Fragment>
+    //   <MessageSectionLayout
+    //     messages={messages}
+    //     isLog={false}
+    //     isOpen={props.isOpen}
+    //   />
+    //   <Form onSubmit={event => handleMessageSend(event)}>
+    //     <InputGroup>
+    //       <FormControl
+    //         placeholder="Your message"
+    //         aria-label="Your message"
+    //         value={message.text}
+    //         onChange={event =>
+    //           setMessage({
+    //             text: event.target.value,
+    //             type: MessageType.MESSAGE,
+    //           } as Message)
+    //         }
+    //       />
+    //       <Button type="submit" variant="info" id="button-addon2">
+    //         Send
+    //       </Button>
+    //     </InputGroup>
+    //   </Form>
+    // </React.Fragment>
   );
 }
 

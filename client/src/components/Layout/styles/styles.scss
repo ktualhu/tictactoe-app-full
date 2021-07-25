@@ -1,0 +1,16 @@
+@import '../../../styles/colors/colors';
+@import '../../../styles/font/font';
+
+.container {
+  font-family: $font-main;
+  font-weight: 400;
+  max-width: 1024px;
+  margin: 0 auto;
+  font-size: 1em;
+
+  .content {
+    display: flex;
+    background-color: $secondary-color;
+    flex-direction: column;
+  }
+}

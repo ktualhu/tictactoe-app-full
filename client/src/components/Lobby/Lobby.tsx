@@ -16,6 +16,10 @@ import RoomCreateForm from '../Form/RoomForm/RoomCreateForm';
 import RoomJoinForm from '../Form/RoomForm/RoomJoinForm';
 import { joinRoom } from '../../utils/helpers/joinRoomRequest';
 
+import './styles/styles.css';
+import EmptyRoomList from './EmptyRoomList/EmptyRoomList';
+import RoomList from './RoomList/RoomList';
+
 type LobbyProps = {
   routes?: RouteComponentProps;
   handleRouting?: (path: string) => void;
@@ -91,14 +95,17 @@ function Lobby(props: LobbyProps) {
 
   return (
     <React.Fragment>
-      <Title text={'Lobby'} />
-      <MyTable
-        currentUser={currentUser.username}
-        handleCreateRoom={handleCreateRoom}
-        handleJoinRoom={(id: string) => handleJoinRoom(id)}
-        rooms={rooms}
-      />
       {renderModal()}
+      {!rooms.length ? (
+        <EmptyRoomList handleCreateRoom={handleCreateRoom} />
+      ) : (
+        <RoomList
+          currentUser={currentUser.username}
+          handleCreateRoom={handleCreateRoom}
+          handleJoinRoom={(id: string) => handleJoinRoom(id)}
+          rooms={rooms}
+        />
+      )}
     </React.Fragment>
   );
 }

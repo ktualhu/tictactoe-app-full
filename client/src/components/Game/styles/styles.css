@@ -1,0 +1,136 @@
+/* Button Colors */
+/* Badge Colors */
+/* Button Colors */
+/* Badge Colors */
+.input__box {
+  border: 1px solid #f0f0f0;
+  border-radius: 0.5em;
+  -webkit-box-shadow: -2px 5px 7px -2px rgba(34, 60, 80, 0.2);
+  box-shadow: -2px 5px 7px -2px rgba(34, 60, 80, 0.2);
+  margin: 1em auto;
+}
+
+.input__box .prefix {
+  font-size: 1em;
+  font-weight: bold;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0.85em;
+}
+
+.input__box input {
+  border: none;
+  outline: none;
+  font-size: 1em;
+  padding: 0.4em;
+  font-weight: bold;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.shadow {
+  -webkit-box-shadow: -2px 5px 7px -2px rgba(34, 60, 80, 0.2);
+  box-shadow: -2px 5px 7px -2px rgba(34, 60, 80, 0.2);
+}
+
+/* Button Colors */
+/* Badge Colors */
+.btn {
+  border: none;
+  padding: 1em;
+  font-weight: bold;
+  border-radius: 0.3em;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.btn:hover {
+  cursor: pointer;
+  color: #f0f0f0;
+}
+
+.btn__success {
+  background-color: #72e86b;
+}
+
+.btn__success:hover {
+  background-color: #24b01b;
+}
+
+.btn__info {
+  background-color: #88ceeb;
+}
+
+.btn__info:hover {
+  background-color: #d87093;
+}
+
+.btn__remove {
+  margin-left: 0.3em;
+  background-color: #ef2b3a;
+}
+
+.btn__remove:hover {
+  background-color: #c70f1d;
+}
+
+.gameBlock {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 45%;
+          flex: 0 1 45%;
+  margin: auto;
+}
+
+.gameBlock .game__container {
+  height: 100%;
+}
+
+.loading__content {
+  margin: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  text-align: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.game__container__row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  margin-bottom: 2em;
+}
+
+.game__container__row .row__cell {
+  background-color: #fefefe;
+  width: 120px;
+  height: 125px;
+  border: none;
+  -webkit-box-shadow: -1px 4px 11px 0px rgba(33, 37, 41, 0.17);
+  box-shadow: -1px 4px 11px 0px rgba(33, 37, 41, 0.17);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.game__container__row .row__cell:hover {
+  cursor: pointer;
+  background-color: #f0f0f0;
+}
+
+.last {
+  margin-bottom: 0 !important;
+}
+
+.row__cell__value {
+  font-size: 4em;
+}
+/*# sourceMappingURL=styles.css.map */

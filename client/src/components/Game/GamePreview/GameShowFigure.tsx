@@ -1,5 +1,6 @@
-import { Row, Col, Button } from 'react-bootstrap';
 import { GameUser } from '../../../utils/types/game';
+
+import '../styles/styles.css';
 
 export interface ShowScreenData {
   text: string;
@@ -13,23 +14,24 @@ type GameShowFigureProps = {
 };
 
 const GameShowFigure = (props: GameShowFigureProps) => (
-  <Col>
-    <Row className="justify-content-md-center mb-3">
-      <h4 className="display-4" style={{ fontSize: '1.5rem' }}>
+  <div className="game__container__row loading">
+    <div className="loading__content">
+      <span style={{ fontSize: '1.3em', marginBottom: '1em' }}>
         {props.showData.text}
-        <span className="font-weight-bold">{props.showData.data}</span>
-      </h4>
-    </Row>
-    <Row className="justify-content-md-center">
-      <Button
-        variant="info"
-        className="btn-lg"
+        <span style={{ textDecoration: 'underline' }}>
+          {props.showData.data}
+        </span>
+      </span>
+      <button
+        type="submit"
+        className="btn btn__info auth_btn shadow"
+        style={{ margin: '0 auto' }}
         onClick={props.handlePickFigure}
       >
         OK
-      </Button>
-    </Row>
-  </Col>
+      </button>
+    </div>
+  </div>
 );
 
 export default GameShowFigure;
