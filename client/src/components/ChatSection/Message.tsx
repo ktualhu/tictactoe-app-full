@@ -1,4 +1,3 @@
-import React from 'react';
 import { Message, MessageType } from '../../utils/types/chat-message';
 
 import './styles/styles.css';
@@ -9,25 +8,6 @@ type MessageProps = {
 };
 
 function MessageComponent(props: MessageProps) {
-  const getColorByMessageType = () => {
-    let color = '';
-    switch (props.message.type) {
-      case MessageType.MESSAGE:
-        color = 'bg-white';
-        break;
-      case MessageType.JOIN:
-        color = 'bg-success';
-        break;
-      case MessageType.LEAVE:
-        color = 'bg-danger';
-        break;
-      default:
-        color = 'bg-white';
-        break;
-    }
-    return color;
-  };
-
   const renderMessageContent = () => {
     if (props.message.type === MessageType.MESSAGE) {
       return (
@@ -53,26 +33,15 @@ function MessageComponent(props: MessageProps) {
     }
     return (
       <div className="chat__message" style={{ minWidth: '100%' }}>
-        <span style={{ fontWeight: 'bold' }}>{props.message.author}</span>{' '}
+        <span style={{ fontWeight: 'bold', marginRight: '.4em' }}>
+          {props.message.author}
+        </span>
         {props.message.text}
-        {/* <div className="chat__message__info">17:03</div> */}
       </div>
     );
-    // else {
-    //   return (
-    //     <React.Fragment>
-    //       <span className="font-weight-bold">{props.message.author}</span>{' '}
-    //       {props.message.text}
-    //     </React.Fragment>
-    //   );
-    // }
   };
 
-  return (
-    // <span className={`p-2 ${getColorByMessageType()}`}>
-    renderMessageContent()
-    // </span>
-  );
+  return renderMessageContent();
 }
 
 export default MessageComponent;

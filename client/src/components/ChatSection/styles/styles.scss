@@ -173,6 +173,7 @@
   display: flex;
   justify-content: center;
   font-weight: bold;
+  z-index: 1000;
 }
 
 .chat__messageBlock__empty {

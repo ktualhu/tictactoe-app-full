@@ -39,6 +39,8 @@ export const useChat = () => {
     });
 
     return () => {
+      console.log('chat disconnected');
+
       chatSocketRef.current.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -51,7 +53,6 @@ export const useChat = () => {
   const showChatLeaveAlert = (roomId: string, username: string) => {
     const message: Message = constructChatMessage(username, MessageType.LEAVE);
     chatSocketRef.current.emit('chat:leave', { roomId, message });
-    dispatch(leaveChatAlert());
   };
 
   const sendMessage = (roomId: string, message: Message) => {

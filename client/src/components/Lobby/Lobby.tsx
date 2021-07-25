@@ -77,15 +77,15 @@ function Lobby(props: LobbyProps) {
           <RoomJoinForm
             roomId={id}
             onHide={hideModal}
-            onSuccess={() => goToRoom(id)}
+            onSuccess={() => goToRoom(id, true)}
           />
         ),
       });
     }
   };
 
-  const goToRoom = async (id: string) => {
-    await joinRoom(id);
+  const goToRoom = async (id: string, fromModal?: boolean) => {
+    !fromModal && (await joinRoom(id));
     props.handleRouting && props.handleRouting('/rooms/' + id);
   };
 

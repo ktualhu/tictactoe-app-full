@@ -70,14 +70,14 @@ function Chat(props: IProps) {
           className="chat__formBlock__form"
           onSubmit={event => handleMessageSend(event)}
         >
-          <button
+          <span
             className="chatBtn"
             style={{ position: 'relative' }}
             onClick={props.onChangeTab}
           >
             <img src={LogsSVG} className="chatBtn__img" />
             {renderUnreadMsgCounter()}
-          </button>
+          </span>
           <input
             type="text"
             className="input"
@@ -90,37 +90,12 @@ function Chat(props: IProps) {
               } as Message)
             }
           />
-          <button className="chatBtn">
+          <button type="submit" className="chatBtn">
             <img src={SendSVG} className="chatBtn__img" />
           </button>
         </form>
       </div>
     </div>
-    // <React.Fragment>
-    //   <MessageSectionLayout
-    //     messages={messages}
-    //     isLog={false}
-    //     isOpen={props.isOpen}
-    //   />
-    //   <Form onSubmit={event => handleMessageSend(event)}>
-    //     <InputGroup>
-    //       <FormControl
-    //         placeholder="Your message"
-    //         aria-label="Your message"
-    //         value={message.text}
-    //         onChange={event =>
-    //           setMessage({
-    //             text: event.target.value,
-    //             type: MessageType.MESSAGE,
-    //           } as Message)
-    //         }
-    //       />
-    //       <Button type="submit" variant="info" id="button-addon2">
-    //         Send
-    //       </Button>
-    //     </InputGroup>
-    //   </Form>
-    // </React.Fragment>
   );
 }
 

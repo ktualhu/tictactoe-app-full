@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Row, Tabs, Tab, Badge } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { useGame } from '../../hooks/useGame';
 import { useRooms } from '../../hooks/useRooms';
 import http from '../../http';
+import { leaveChatAlert } from '../../store/chat/chatSlice';
 import RootState from '../../store/state/rootState';
 import {
   currentUserSelector,
   updateMyUser,
 } from '../../store/users/usersSlice';
 import { getRoomById } from '../../utils/helpers/selectRoom';
-import Chat from '../ChatSection/Chat/Chat';
 import ChatSection from '../ChatSection/ChatSection';
 import Game from '../Game/Game';
 
@@ -63,6 +62,7 @@ function RoomComponent(props: RoomProps) {
   const handleLeaveRoom = () => {
     http.post('/rooms/leave').then(() => {
       dispatch(updateMyUser(''));
+      dispatch(leaveChatAlert());
       props.handleRouting && props.handleRouting('/');
       leaveRoom(props.routes?.match.params.id!, currentUser.username);
     });
@@ -106,46 +106,6 @@ function RoomComponent(props: RoomProps) {
     );
   }
   return null;
-
-  // if (room) {
-  //   return (
-  //     <React.Fragment>
-  //       <Row className="p-3">
-  //         <Col>
-  //           <Row className="pl-3">
-  //             <h3>{room.roomTitle}</h3>
-  //           </Row>
-  //         </Col>
-  //         <Col>
-  //           <Row className="pr-4 justify-content-end">
-  //             <Button
-  //               variant="info"
-  //               className="mr-3"
-  //               onClick={handleRestartGame}
-  //               disabled={!restartBtnActive}
-  //             >
-  //               Restart
-  //             </Button>
-  //             <Button variant="info" onClick={handleLeaveRoom}>
-  //               Back To Lobby
-  //             </Button>
-  //           </Row>
-  //         </Col>
-  //       </Row>
-  //       <Row className="pl-3 pr-4 pb-4">
-  //         <Col>
-  //           <Game
-  //             roomId={roomId!}
-  //             playersCounter={room.roomUsers.length}
-  //             onGameReady={(val: boolean) => setRestartBtnActive(val)}
-  //           />
-  //         </Col>
-  //         <Col>{roomId ? <ChatSection roomId={roomId} /> : null}</Col>
-  //       </Row>
-  //     </React.Fragment>
-  //   );
-  // }
-  // return null;
 }
 
 export default RoomComponent;

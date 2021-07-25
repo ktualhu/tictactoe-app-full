@@ -33,11 +33,12 @@ const GamePickFigure = (props: GamePickFigureProps) => {
           props.handlePickFigure(figure);
         }}
       >
-        <span style={{ fontSize: '1.3em' }}>
+        <span style={{ fontSize: '1.4em' }}>
           {GAME_DESIRED_FIGURE}{' '}
           <span style={{ textDecoration: 'underline' }}>
             {timer.getTimer()}
           </span>
+          {' sec.'}
         </span>
         <div className="input__box" style={{ fontSize: '1', width: '40%' }}>
           <input
