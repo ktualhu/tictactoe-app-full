@@ -7,7 +7,7 @@ Mini app for playing in tictactoe with another players.
 
 - Frontend: React, Redux, React-Router
 - Backend: NestJS
-- Other: TypeScript, socketIO and more
+- Other: TypeScript, socket-io and more
 
 ## Try
 
