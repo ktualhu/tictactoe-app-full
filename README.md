@@ -1,6 +1,6 @@
 ## Short Description
 
-Mini app for playing in tictactoe with another players.
+Mini app for playing in tic tac toe with another players.
 <p>We have here lobby with list of existed rooms, private/public rooms, game field, room chat and more..</p>
 
 ## Technologies
